@@ -1,0 +1,129 @@
+{
+  "manifest_version": 3,
+  "name": "__MSG_extName__",
+  "short_name": "Arcish",
+  "version": "0.1.0",
+  "description": "__MSG_extDescription__",
+  "homepage_url": "https://github.com/KikuchiTomo/arcish",
+  "default_locale": "en",
+  "minimum_chrome_version": "123",
+  "icons": {
+    "16": "icons/icon16.png",
+    "32": "icons/icon32.png",
+    "48": "icons/icon48.png",
+    "128": "icons/icon128.png"
+  },
+  "action": {
+    "default_title": "__MSG_actionTitle__",
+    "default_icon": {
+      "16": "icons/icon16.png",
+      "32": "icons/icon32.png"
+    }
+  },
+  "side_panel": {
+    "default_path": "src/sidebar/sidebar.html"
+  },
+  "background": {
+    "service_worker": "src/background/index.js",
+    "type": "module"
+  },
+  "options_page": "src/options/options.html",
+  "permissions": [
+    "tabs",
+    "tabGroups",
+    "sidePanel",
+    "storage",
+    "unlimitedStorage",
+    "alarms",
+    "contextMenus",
+    "scripting",
+    "favicon",
+    "history",
+    "bookmarks",
+    "system.display",
+    "clipboardWrite",
+    "downloads",
+    "downloads.open"
+  ],
+  "host_permissions": [
+    "<all_urls>"
+  ],
+  "content_scripts": [
+    {
+      "matches": [
+        "<all_urls>"
+      ],
+      "js": [
+        "src/shared/protocol.js",
+        "src/content/core.js",
+        "src/content/features/boost.js",
+        "src/content/features/peek.js",
+        "src/content/features/palette-host.js",
+        "src/content/features/zap.js",
+        "src/content/features/page-tools.js",
+        "src/content/main.js"
+      ],
+      "run_at": "document_start"
+    }
+  ],
+  "web_accessible_resources": [
+    {
+      "resources": [
+        "src/palette/palette.html"
+      ],
+      "matches": [
+        "<all_urls>"
+      ]
+    }
+  ],
+  "commands": {
+    "_execute_action": {
+      "suggested_key": {
+        "default": "Alt+S"
+      },
+      "description": "__MSG_cmdSidebar__"
+    },
+    "command-bar": {
+      "suggested_key": {
+        "default": "Alt+T"
+      },
+      "description": "__MSG_cmdCommandBar__"
+    },
+    "mini-window": {
+      "suggested_key": {
+        "default": "Alt+N"
+      },
+      "description": "__MSG_cmdMiniWindow__"
+    },
+    "toggle-split": {
+      "suggested_key": {
+        "default": "Alt+D"
+      },
+      "description": "__MSG_cmdToggleSplit__"
+    },
+    "command-bar-current": {
+      "description": "__MSG_cmdCommandBarCurrent__"
+    },
+    "next-space": {
+      "description": "__MSG_cmdNextSpace__"
+    },
+    "prev-space": {
+      "description": "__MSG_cmdPrevSpace__"
+    },
+    "copy-url": {
+      "description": "__MSG_cmdCopyUrl__"
+    },
+    "pin-tab": {
+      "description": "__MSG_cmdPinTab__"
+    },
+    "favorite-tab": {
+      "description": "__MSG_cmdFavoriteTab__"
+    },
+    "archive-tab": {
+      "description": "__MSG_cmdArchiveTab__"
+    },
+    "zap": {
+      "description": "__MSG_cmdZap__"
+    }
+  }
+}
