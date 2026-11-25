@@ -5,6 +5,8 @@
 <html>
   <head>
     <meta charset="utf-8" />
+    <link rel="stylesheet" href="chrome-frame.css" />
+    <script src="chrome-frame.js"></script>
     <style>
       :root {
         --paper: #f5f3f8;
@@ -76,6 +78,18 @@
       h1 {
         white-space: pre-line; /* copy may carry its own line breaks */
       }
+      /* The phrase a headline turns on (marked *like this* in the copy). */
+      h1 em {
+        font-style: normal;
+        color: var(--accent);
+      }
+      :lang(en) h1 em {
+        font-family: 'Iowan Old Style', Baskerville, Georgia, serif;
+        font-style: italic;
+        font-weight: 400;
+        font-size: 1.06em;
+        letter-spacing: -0.025em;
+      }
       :lang(ja) h1 {
         font-size: 36px;
         line-height: 1.3;
@@ -102,30 +116,12 @@
         overflow: hidden;
         box-shadow: 0 34px 80px rgba(34, 20, 80, 0.22), 0 0 0 1px rgba(34, 20, 80, 0.08);
       }
-      .chrome-bar {
-        height: 42px;
-        display: flex;
-        align-items: center;
-        gap: 7px;
-        padding: 0 14px;
-        background: #ecebf0;
-      }
-      .chrome-bar i {
-        width: 11px;
-        height: 11px;
-        border-radius: 50%;
-        background: #cfccd8;
-      }
-      .chrome-bar .address {
-        flex: 1;
-        height: 24px;
-        margin-left: 12px;
-        border-radius: 12px;
-        background: #fff;
-      }
       .browser .content {
         position: relative;
         display: flex;
+      }
+      .browser .side {
+        border-right: 1px solid var(--cf-line);
       }
       .page {
         flex: 1;
@@ -223,20 +219,32 @@
     <div id="stage"></div>
     <script>
       const page = '<div class="page"><b></b>' + '<s></s>'.repeat(11) + '</div>';
-      const bar = '<div class="chrome-bar"><i></i><i></i><i></i><span class="address"></span></div>';
-      const copy = (c) => `<div class="copy"><div class="label">${c.label}</div><h1>${c.title}</h1><div class="body">${c.body}</div></div>`;
+      const accented = (title) => title.replace(/\*([^*]+)\*/g, '<em>$1</em>');
+      const copy = (c) => `<div class="copy"><div class="label">${c.label}</div><h1>${accented(c.title)}</h1><div class="body">${c.body}</div></div>`;
       const img = (src, width, cls = '') => `<img class="${cls}" src="${src}" width="${width}">`;
+      // A Chrome window `width` wide, drawn at `unit` times its real size and
+      // centred vertically; `inner` is what sits under the toolbar and is `height` tall.
+      const SHOT_HEIGHT = 800;
+      const browser = (c, { left, width, unit = 1, height }, inner) => {
+        const top = Math.round((SHOT_HEIGHT - chromeFrame.UNITS.bars * unit - height) / 2);
+        return `<div class="browser cf" style="left:${left}px;top:${top}px;width:${width}px;--u:${unit}">${chromeFrame.bars(c)}${inner}</div>`;
+      };
+      const PANEL = { width: 320, height: 660 }; // the captured sidebar
 
       const LAYOUTS = {
-        // The sidebar next to a page, in a browser window.
-        panel: (c) => `<div class="shot"><div class="field"></div>${copy(c)}
-          <div class="browser" style="left:560px;top:58px;width:650px">${bar}<div class="content">${img(c.image, 320)}${page}</div></div></div>`,
+        // The sidebar in Chrome's side panel, next to a page.
+        panel: (c) => {
+          const unit = 0.9;
+          const side = `<div class="side">${chromeFrame.panelHead(c)}${img(c.image, PANEL.width * unit)}</div>`;
+          return `<div class="shot"><div class="field"></div>${copy(c)}
+            ${browser(c, { left: 562, width: 660, unit, height: (chromeFrame.UNITS.panelHead + PANEL.height) * unit }, `<div class="content">${side}${page}</div>`)}</div>`;
+        },
         // The command bar floating over a page.
         overlay: (c) => `<div class="shot"><div class="field"></div>${copy(c)}
-          <div class="browser" style="left:520px;top:150px;width:720px">${bar}<div class="content" style="height:460px">${page}<div class="dim"></div>${img(c.image, 720, 'overlay')}</div></div></div>`,
+          ${browser(c, { left: 540, width: 700, height: 447 }, `<div class="content" style="height:447px">${page}<div class="dim"></div>${img(c.image, 700, 'overlay')}</div>`)}</div>`,
         // A full extension page (settings).
         page: (c) => `<div class="shot"><div class="field"></div>${copy(c)}
-          <div class="browser" style="left:505px;top:132px;width:735px">${bar}${img(c.image, 735)}</div></div>`,
+          ${browser(c, { left: 544, width: 700, height: 490 }, img(c.image, 700))}</div>`,
         small: (c) => `<div class="tile small">${img(c.icon, 84)}<div><div class="name">Arcish</div><div class="tagline">${c.tagline}</div></div></div>`,
         marquee: (c) => `<div class="tile marquee">${img(c.icon, 120, 'mark')}<div><div class="name">Arcish</div><div class="tagline">${c.tagline}</div></div>
           <div class="panel">${img(c.image, 300)}</div></div>`,

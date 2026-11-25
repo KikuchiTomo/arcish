@@ -21,6 +21,7 @@ npm run store:film     # 紹介動画（ffmpeg が必要。数分かかる）
 
 - 画面の中身（サンプルサイト、Space、フォルダなど）は `scripts/store/demo.mjs`
 - 画像の文言とレイアウトは `scripts/store-assets.mjs` と `scripts/store/compose.html`
+- Chrome のタブストリップ、ツールバー、サイドパネルの見出しは `scripts/store/chrome-frame.js` と `chrome-frame.css`。タブの並びは撮影時の実際のウィンドウから取っている
 - 動画の構成とタイミングは `scripts/store/film.html`、効果音は `scripts/store/sound.mjs`
 
 効果音は素材集を使わず、波形から合成しています。手持ちの音源に差し替える場合は、動画と同じ長さの WAV を用意して `scripts/store-film.mjs` の合成結果と入れ替えます。

@@ -47,10 +47,17 @@ async function openPanel({ browser, worker, baseUrl, windowId }) {
   return panel;
 }
 
-// Returns { name: pngBuffer } for one language.
+// Captures one language. Returns { shots: { name: png }, strips: { name: tabs } }.
 export async function captureUi({ browser, worker, baseUrl, demo, site, language }) {
   const { windowId, tabs, folders, live, spaces } = demo;
   const shots = {};
+  // The window's tab strip at the moment of each capture, so the images can
+  // draw Chrome's own bars the way they really looked.
+  const strips = {};
+  const strip = () =>
+    worker
+      .evaluate(`chrome.tabs.query({ windowId: ${windowId} }).then((all) => JSON.stringify(all.map((t) => ({ title: t.title, url: t.url, icon: t.favIconUrl || '', pinned: t.pinned, active: t.active }))))`)
+      .then(JSON.parse);
 
   // ---- sidebar states
   const panel = await openPanel({ browser, worker, baseUrl, windowId });
@@ -65,6 +72,7 @@ export async function captureUi({ browser, worker, baseUrl, demo, site, language
   const snap = async (name) => {
     await sleep(SETTLE_MS);
     shots[name] = await panel.capture();
+    strips[name] = await strip();
   };
   await showSpace(spaces.personal.id, 'weather');
   await snap('panel-personal');
@@ -111,10 +119,13 @@ export async function captureUi({ browser, worker, baseUrl, demo, site, language
   await settings.evaluate('document.querySelector(".page").style.animation = "none"');
   await sleep(400);
   shots.settings = await settings.capture();
+  // The page was opened without being selected; in the image it is the tab on show.
+  const settingsUrl = `${baseUrl}/src/options/`;
+  strips.settings = (await strip()).map((t) => ({ ...t, active: t.url.startsWith(settingsUrl) }));
   await closeTab(worker, settings);
 
   for (const [name, body] of Object.entries(shots)) site.publish(`ui/${language}/${name}.png`, body);
-  return shots;
+  return { shots, strips };
 }
 
 export const SIZES = { PANEL, PALETTE, SETTINGS };

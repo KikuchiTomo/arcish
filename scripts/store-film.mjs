@@ -15,7 +15,7 @@ import { mkdirSync, mkdtempSync, readFileSync, rmSync, writeFileSync } from 'nod
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
 import { captureUi } from './store/capture.mjs';
-import { openDemoSession, ROOT } from './store/session.mjs';
+import { extensionName, openDemoSession, publishFrame, ROOT } from './store/session.mjs';
 import { renderSoundtrack } from './store/sound.mjs';
 
 const OUT = join(ROOT, 'store');
@@ -38,12 +38,14 @@ const session = await openDemoSession();
 const work = mkdtempSync(join(tmpdir(), 'arcish-film-'));
 try {
   const { site, browser } = session;
-  await captureUi({ ...session, language: LANGUAGE });
+  const { strips } = await captureUi({ ...session, language: LANGUAGE });
+  publishFrame(site);
   site.publish('film.html', readFileSync(join(ROOT, 'scripts/store/film.html')), 'text/html');
 
   const film = await browser.openPage(site.file('film.html'));
   await film.setViewport(SIZE.width, SIZE.height, { scale: 1 });
-  await film.evaluate(`init(${JSON.stringify({ assetUrl: site.file(`ui/${LANGUAGE}/{name}.png`), ...TEXT })})`);
+  const extension = { name: extensionName(LANGUAGE), icon: site.file('icon.png') };
+  await film.evaluate(`init(${JSON.stringify({ assetUrl: site.file(`ui/${LANGUAGE}/{name}.png`), strips, extension, ...TEXT })})`);
   const { duration, cues } = JSON.parse(await film.evaluate('JSON.stringify({ duration: DURATION, cues: CUES })'));
   const from = Number(process.env.FILM_FROM) || 0;
   const to = Number(process.env.FILM_TO) || duration;

@@ -197,7 +197,7 @@ export function soundEvents({ T, CLICK_AT, SWIPES, TYPING }, duration) {
     { sound: 'pop', at: T.command + 0.6, level: 0.16, pitch: 1.15 },
     ...TYPING.map((at, i) => ({ sound: 'tick', at, pitch: [1, 1.07, 0.95][i % 3], level: 0.085 })),
     // library and settings
-    { sound: 'whoosh', at: T.library + 0.3, length: 0.55, level: 0.085, rising: false, from: -0.5, to: 0.3 },
+    { sound: 'whoosh', at: T.library + 0.45, length: 0.55, level: 0.085, rising: false, from: -0.5, to: 0.3 },
     { sound: 'pop', at: T.library + 1.45, level: 0.13, pitch: 0.9, pan: 0.35 },
     // end card
     { sound: 'whoosh', at: T.outro - 0.05, length: 0.7, level: 0.07, rising: false },
