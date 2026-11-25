@@ -142,6 +142,20 @@ test('folders hold pinned items; removing a folder releases or closes its tabs',
   assert.equal(h.fake.tab(b.id), undefined);
 });
 
+test('a folder icon can be a built-in icon of any name length, an emoji, or cleared', async () => {
+  const h = await createHarness();
+  const folderId = await h.items.createFolder({ spaceId: h.personal.id, title: 'Reading' });
+  const folder = h.personal.pinned[0];
+  await h.items.setIcon(folderId, 'bookmark');
+  assert.equal(folder.icon, 'bookmark');
+  await h.items.setIcon(folderId, '📚');
+  assert.equal(folder.icon, '📚');
+  await h.items.setIcon(folderId, 'far too long to fit');
+  assert.equal(folder.icon, 'far ', 'typed text is limited in length');
+  await h.items.setIcon(folderId, '');
+  assert.equal('icon' in folder, false);
+});
+
 test('bindings are rebuilt by URL after a restart', async () => {
   const h = await createHarness();
   const tab = await h.openTab({ url: 'https://docs.example/' });
