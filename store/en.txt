@@ -11,10 +11,10 @@ STORE LISTING
 ======================================================================
 
 [Title]  (taken from the package, shown here for reference)
-Arcish — Arc-style sidebar
+Arcish — Tab Manager
 
 [Summary]  (taken from the package, shown here for reference)
-Spaces, Favorites, pinned tabs, Live Folders, Little Window, Split View and a command bar. Assists Chrome instead of replacing it.
+A big upgrade for your tabs in Chrome!
 
 [Description]
 Arcish adds a sidebar to Chrome's side panel that keeps your tabs in order.
