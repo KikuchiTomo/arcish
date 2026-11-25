@@ -1,0 +1,26 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>Arcish</title>
+    <link rel="stylesheet" href="palette.css" />
+  </head>
+  <body>
+    <div class="backdrop"></div>
+    <div class="bar">
+      <div class="input-row">
+        <span class="lead" id="lead"></span>
+        <input id="q" autocomplete="off" spellcheck="false" autofocus />
+        <kbd>esc</kbd>
+      </div>
+      <div class="results" id="results"></div>
+      <div class="footer">
+        <span><b>↑↓</b> <span data-i18n="paletteHintMove"></span></span>
+        <span><b>↵</b> <span data-i18n="paletteHintOpen"></span></span>
+        <span><b>⇧↵</b> <span data-i18n="splitView"></span></span>
+        <span><b>⌥↵</b> <span data-i18n="miniWindow"></span></span>
+      </div>
+    </div>
+    <script type="module" src="main.js"></script>
+  </body>
+</html>

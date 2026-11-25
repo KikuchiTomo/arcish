@@ -1,0 +1,824 @@
+{
+  "actionCopyUrl": {
+    "message": "Copy URL"
+  },
+  "actionEditBoost": {
+    "message": "Edit Boost for $1"
+  },
+  "actionMini": {
+    "message": "New Little Window"
+  },
+  "actionNextSpace": {
+    "message": "Next Space"
+  },
+  "actionOpenSidebar": {
+    "message": "Open sidebar"
+  },
+  "actionPageToMini": {
+    "message": "Open this page in a Little Window"
+  },
+  "actionPrevSpace": {
+    "message": "Previous Space"
+  },
+  "actionRefreshLive": {
+    "message": "Refresh Live Folders"
+  },
+  "actionReopenArchived": {
+    "message": "Reopen last archived tab"
+  },
+  "actionShowArchive": {
+    "message": "Show archive"
+  },
+  "actionSplit": {
+    "message": "Toggle Split View"
+  },
+  "actionTitle": {
+    "message": "Open Arcish sidebar"
+  },
+  "actionToggleFavorite": {
+    "message": "Add / remove from Favorites"
+  },
+  "actionTogglePin": {
+    "message": "Pin / unpin tab"
+  },
+  "archive": {
+    "message": "Archive"
+  },
+  "archiveClearAll": {
+    "message": "Delete all"
+  },
+  "archiveClearTitle": {
+    "message": "Delete the whole archive?"
+  },
+  "archiveEmpty": {
+    "message": "No archived tabs"
+  },
+  "archivePolicy": {
+    "message": "Tabs unused for $1 are archived automatically"
+  },
+  "archivePolicyOff": {
+    "message": "Automatic archiving is off"
+  },
+  "archiveSearch": {
+    "message": "Search archive"
+  },
+  "back": {
+    "message": "Back"
+  },
+  "cancel": {
+    "message": "Cancel"
+  },
+  "change": {
+    "message": "Change"
+  },
+  "cmdArchiveTab": {
+    "message": "Archive tab"
+  },
+  "cmdCommandBar": {
+    "message": "Command bar (new tab)"
+  },
+  "cmdCommandBarCurrent": {
+    "message": "Command bar (change current tab's URL)"
+  },
+  "cmdCopyUrl": {
+    "message": "Copy current URL"
+  },
+  "cmdFavoriteTab": {
+    "message": "Add / remove tab from Favorites"
+  },
+  "cmdMiniWindow": {
+    "message": "Open a Little Window"
+  },
+  "cmdNextSpace": {
+    "message": "Next Space"
+  },
+  "cmdPinTab": {
+    "message": "Pin / unpin tab in Space"
+  },
+  "cmdPrevSpace": {
+    "message": "Previous Space"
+  },
+  "cmdSidebar": {
+    "message": "Open the sidebar"
+  },
+  "cmdToggleSplit": {
+    "message": "Start / exit Split View"
+  },
+  "cmdZap": {
+    "message": "Zap (hide page elements)"
+  },
+  "color": {
+    "message": "Colour"
+  },
+  "colorAqua": {
+    "message": "Aqua"
+  },
+  "colorCherry": {
+    "message": "Cherry"
+  },
+  "colorCustom": {
+    "message": "Custom colour"
+  },
+  "colorGraphite": {
+    "message": "Graphite"
+  },
+  "colorLavender": {
+    "message": "Lavender"
+  },
+  "colorLemon": {
+    "message": "Lemon"
+  },
+  "colorMint": {
+    "message": "Mint"
+  },
+  "colorOcean": {
+    "message": "Ocean"
+  },
+  "colorPeach": {
+    "message": "Peach"
+  },
+  "colorRose": {
+    "message": "Rose"
+  },
+  "commandBar": {
+    "message": "Command bar"
+  },
+  "copyUrl": {
+    "message": "Copy URL"
+  },
+  "create": {
+    "message": "Create"
+  },
+  "defaultSpacePersonal": {
+    "message": "Personal"
+  },
+  "defaultSpaceWork": {
+    "message": "Work"
+  },
+  "delete": {
+    "message": "Delete"
+  },
+  "dismiss": {
+    "message": "Dismiss"
+  },
+  "errorFavoritesLinksOnly": {
+    "message": "Only links can be added to Favorites"
+  },
+  "errorLastSpace": {
+    "message": "The last Space cannot be deleted"
+  },
+  "errorSpaceNotFound": {
+    "message": "Space not found"
+  },
+  "errorSplitNeedsTwo": {
+    "message": "Split View shows exactly two tabs"
+  },
+  "errorSplitUnsupported": {
+    "message": "This version of Chrome has no split view"
+  },
+  "extDescription": {
+    "message": "Spaces, Favorites, pinned tabs, Live Folders, Little Window, Split View and a command bar — an assistant for Chrome, not a replacement."
+  },
+  "extName": {
+    "message": "Arcish — Arc-style sidebar"
+  },
+  "favMoveToPinned": {
+    "message": "Move to this Space (pinned)"
+  },
+  "favRemove": {
+    "message": "Remove from Favorites"
+  },
+  "favorites": {
+    "message": "Favorites"
+  },
+  "favoritesEmpty": {
+    "message": "Drag a tab here to add it to Favorites"
+  },
+  "folderChangeIcon": {
+    "message": "Change icon"
+  },
+  "folderDefaultName": {
+    "message": "New Folder"
+  },
+  "folderDelete": {
+    "message": "Delete folder"
+  },
+  "folderIconCustom": {
+    "message": "Or type an emoji"
+  },
+  "folderNew": {
+    "message": "New Folder"
+  },
+  "folderNewSub": {
+    "message": "New subfolder"
+  },
+  "folderOpenAll": {
+    "message": "Open all links"
+  },
+  "irreversible": {
+    "message": "This cannot be undone."
+  },
+  "library": {
+    "message": "Library"
+  },
+  "libraryArchived": {
+    "message": "Archived Tabs"
+  },
+  "libraryBoostOff": {
+    "message": "Off"
+  },
+  "libraryDownloadMissing": {
+    "message": "File moved or deleted"
+  },
+  "libraryDownloads": {
+    "message": "Downloads"
+  },
+  "libraryDownloadsEmpty": {
+    "message": "No downloads"
+  },
+  "librarySearchDownloads": {
+    "message": "Search downloads"
+  },
+  "librarySpaceSummary": {
+    "message": "$1 pinned · $2 tabs"
+  },
+  "libraryZaps": {
+    "message": "$1 zapped"
+  },
+  "liveDelete": {
+    "message": "Delete Live Folder"
+  },
+  "liveDraft": {
+    "message": "Draft"
+  },
+  "liveEdit": {
+    "message": "Edit Live Folder"
+  },
+  "liveEditSource": {
+    "message": "Edit source"
+  },
+  "liveEmpty": {
+    "message": "Nothing here yet"
+  },
+  "liveErrorEmptyFeed": {
+    "message": "No entries found in this feed"
+  },
+  "liveErrorEmptyQuery": {
+    "message": "The search query is empty"
+  },
+  "liveErrorRepoFormat": {
+    "message": "Use the form owner/name"
+  },
+  "liveErrorTokenRequired": {
+    "message": "@me needs a GitHub token (see Settings)"
+  },
+  "liveErrorUnknownSource": {
+    "message": "Unknown source: $1"
+  },
+  "liveFieldFeedUrl": {
+    "message": "Feed URL"
+  },
+  "liveFieldKind": {
+    "message": "List"
+  },
+  "liveFieldQuery": {
+    "message": "Search query"
+  },
+  "liveFieldRepo": {
+    "message": "Repository"
+  },
+  "liveFolders": {
+    "message": "Live Folders"
+  },
+  "liveHintGithubSelf": {
+    "message": "Queries with @me need a GitHub token, set in Settings."
+  },
+  "liveHintGithubToken": {
+    "message": "Private repositories need a GitHub token, set in Settings."
+  },
+  "liveHintRss": {
+    "message": "RSS and Atom feeds: blogs, YouTube channels, subreddits (/.rss) and more."
+  },
+  "liveHnAsk": {
+    "message": "Ask HN"
+  },
+  "liveHnFrontPage": {
+    "message": "Front page"
+  },
+  "liveHnShow": {
+    "message": "Show HN"
+  },
+  "liveMarkAllRead": {
+    "message": "Mark all as read"
+  },
+  "liveMarkRead": {
+    "message": "Mark as read"
+  },
+  "liveNameOptional": {
+    "message": "Name (optional)"
+  },
+  "liveNew": {
+    "message": "New Live Folder"
+  },
+  "livePresetAssigned": {
+    "message": "Assigned to me"
+  },
+  "livePresetMentions": {
+    "message": "Mentions"
+  },
+  "livePresetMyPulls": {
+    "message": "My pull requests"
+  },
+  "livePresetReviewRequested": {
+    "message": "Review requests"
+  },
+  "liveRefreshNow": {
+    "message": "Refresh now"
+  },
+  "liveShowLess": {
+    "message": "Show less"
+  },
+  "liveShowMore": {
+    "message": "Show $1 more"
+  },
+  "liveSourceGithubIssues": {
+    "message": "GitHub Issues"
+  },
+  "liveSourceGithubPulls": {
+    "message": "GitHub Pull Requests"
+  },
+  "liveSourceGithubSearch": {
+    "message": "GitHub search"
+  },
+  "liveSourceHackerNews": {
+    "message": "Hacker News"
+  },
+  "liveSourceRss": {
+    "message": "RSS / Atom"
+  },
+  "liveStatusFailure": {
+    "message": "Checks failing"
+  },
+  "liveStatusPending": {
+    "message": "Checks running"
+  },
+  "liveStatusSuccess": {
+    "message": "Checks passing"
+  },
+  "liveTitleIssues": {
+    "message": "$1 issues"
+  },
+  "liveTitlePulls": {
+    "message": "$1 PRs"
+  },
+  "loading": {
+    "message": "Loading…"
+  },
+  "mediaPlayPause": {
+    "message": "Play / pause"
+  },
+  "menu": {
+    "message": "Menu"
+  },
+  "menuCommandBar": {
+    "message": "Command bar"
+  },
+  "menuMiniWindow": {
+    "message": "Little Window"
+  },
+  "menuOpenInMini": {
+    "message": "Open in Little Window"
+  },
+  "menuOpenInSplit": {
+    "message": "Open in Split View"
+  },
+  "menuPinLink": {
+    "message": "Pin link to Space"
+  },
+  "menuSettings": {
+    "message": "Settings"
+  },
+  "menuToggleFavorite": {
+    "message": "Add to / remove from Favorites"
+  },
+  "menuTogglePin": {
+    "message": "Pin to / unpin from Space"
+  },
+  "menuZap": {
+    "message": "Zap: hide elements on this page"
+  },
+  "miniCopyUrl": {
+    "message": "Copy URL"
+  },
+  "miniHintOpenHere": {
+    "message": "Open here"
+  },
+  "miniOpenInMain": {
+    "message": "Open in main window"
+  },
+  "miniPlaceholder": {
+    "message": "Search or enter URL"
+  },
+  "miniWindow": {
+    "message": "Little Window"
+  },
+  "moveToSpace": {
+    "message": "Move to another Space"
+  },
+  "name": {
+    "message": "Name"
+  },
+  "navBack": {
+    "message": "Back"
+  },
+  "navForward": {
+    "message": "Forward"
+  },
+  "navReload": {
+    "message": "Reload"
+  },
+  "newTab": {
+    "message": "New Tab"
+  },
+  "open": {
+    "message": "Open"
+  },
+  "openInMini": {
+    "message": "Open in Little Window"
+  },
+  "optArchiveAfter": {
+    "message": "Archive unused tabs after"
+  },
+  "optArchiveAfterHint": {
+    "message": "Closes unpinned tabs you have not used for this long. They stay restorable from the archive."
+  },
+  "optBackup": {
+    "message": "Backup"
+  },
+  "optBackupHint": {
+    "message": "Spaces, Favorites, pinned items, settings and Boosts as one JSON file."
+  },
+  "optBoosts": {
+    "message": "Boosts"
+  },
+  "optBoostsAdd": {
+    "message": "Add site"
+  },
+  "optBoostsEmpty": {
+    "message": "No boosts yet"
+  },
+  "optBoostsNote": {
+    "message": "Custom CSS and zapped elements per site."
+  },
+  "optChrome": {
+    "message": "Chrome integration"
+  },
+  "optChromeNote": {
+    "message": "These change Chrome's own behaviour, so they are opt-in."
+  },
+  "optColorScheme": {
+    "message": "Appearance"
+  },
+  "optCustomSearch": {
+    "message": "Custom search URL"
+  },
+  "optCustomSearchHint": {
+    "message": "Use $1 where the query goes"
+  },
+  "optData": {
+    "message": "Data"
+  },
+  "optExport": {
+    "message": "Export"
+  },
+  "optGeneral": {
+    "message": "General"
+  },
+  "optGithubToken": {
+    "message": "GitHub token"
+  },
+  "optGithubTokenHint": {
+    "message": "Stored only on this device. Needed for private repositories and @me queries."
+  },
+  "optImport": {
+    "message": "Import"
+  },
+  "optImported": {
+    "message": "Imported"
+  },
+  "optLanguage": {
+    "message": "Language"
+  },
+  "optLanguageAuto": {
+    "message": "Same as browser"
+  },
+  "optLead": {
+    "message": "Arcish assists Chrome. Anything that changes how Chrome itself behaves is off until you turn it on."
+  },
+  "optLive": {
+    "message": "Live Folders"
+  },
+  "optLiveRefresh": {
+    "message": "Refresh interval (minutes)"
+  },
+  "optMiniHeight": {
+    "message": "Little Window height"
+  },
+  "optMiniWidth": {
+    "message": "Little Window width"
+  },
+  "optNever": {
+    "message": "Never"
+  },
+  "optNewTabsOnTop": {
+    "message": "Show newest tabs at the top"
+  },
+  "optOpenChromeSettings": {
+    "message": "Open Chrome settings"
+  },
+  "optPeek": {
+    "message": "Shift+click opens links in a Little Window"
+  },
+  "optPeekHint": {
+    "message": "Replaces Chrome's \"open in new window\". Pages that handle shift+click themselves are left alone."
+  },
+  "optRouting": {
+    "message": "Air Traffic Control"
+  },
+  "optRoutingAdd": {
+    "message": "Add rule"
+  },
+  "optRoutingEmpty": {
+    "message": "No rules yet"
+  },
+  "optRoutingNote": {
+    "message": "Send new tabs to a Space by URL. \"github.com\" matches the site and its subdomains; use * for wildcards."
+  },
+  "optScheme_auto": {
+    "message": "Match system"
+  },
+  "optScheme_dark": {
+    "message": "Dark"
+  },
+  "optScheme_light": {
+    "message": "Light"
+  },
+  "optSearchCustom": {
+    "message": "Custom…"
+  },
+  "optSearchEngine": {
+    "message": "Search engine"
+  },
+  "optShortcutsHint": {
+    "message": "Shortcuts are managed by Chrome, so they never clash with pages."
+  },
+  "optSidebarPosition": {
+    "message": "Sidebar position"
+  },
+  "optSidebarPositionHint": {
+    "message": "Chrome decides which side the panel is on: Settings → Appearance → Side panel position."
+  },
+  "optSpaceMode": {
+    "message": "Spaces and the tab strip"
+  },
+  "optSpaceModeHint_groups": {
+    "message": "Each Space is shown as a Chrome tab group, and inactive Spaces collapse."
+  },
+  "optSpaceModeHint_sidebar": {
+    "message": "Spaces live in the sidebar only. Chrome's tab strip is never touched."
+  },
+  "optSpaceMode_groups": {
+    "message": "Mirror as tab groups"
+  },
+  "optSpaceMode_sidebar": {
+    "message": "Sidebar only"
+  },
+  "optSpacesNote": {
+    "message": "Rename Spaces, change their icon and colour, or remove them."
+  },
+  "optTabAuthority": {
+    "message": "Arcish tab priority (Tab Overwrite)"
+  },
+  "optTabAuthorityHint": {
+    "message": "What happens when a tab is pinned, unpinned or moved between tab groups from Chrome's own tab strip."
+  },
+  "optTabAuthorityHint_all": {
+    "message": "Every tab is put back. New tabs opened in Chrome still join the current Space."
+  },
+  "optTabAuthorityHint_none": {
+    "message": "Chrome wins. Arcish follows whatever was changed in Chrome."
+  },
+  "optTabAuthorityHint_pinned": {
+    "message": "Tabs of Favorites and pinned items are put back the way Arcish has them."
+  },
+  "optTabAuthority_all": {
+    "message": "All tabs"
+  },
+  "optTabAuthority_none": {
+    "message": "Don't overwrite"
+  },
+  "optTabAuthority_pinned": {
+    "message": "Pinned tabs only"
+  },
+  "optTitle": {
+    "message": "Arcish settings"
+  },
+  "optWindows": {
+    "message": "Windows"
+  },
+  "paletteActions": {
+    "message": "Actions"
+  },
+  "paletteBookmarks": {
+    "message": "Bookmarks"
+  },
+  "paletteHintMove": {
+    "message": "Navigate"
+  },
+  "paletteHintOpen": {
+    "message": "Open"
+  },
+  "paletteHistory": {
+    "message": "History"
+  },
+  "paletteMoveTabHere": {
+    "message": "Move tab here"
+  },
+  "paletteOpenUrl": {
+    "message": "Open"
+  },
+  "palettePinned": {
+    "message": "Favorites & Pinned"
+  },
+  "palettePlaceholder": {
+    "message": "Search or enter URL…"
+  },
+  "palettePlaceholderCurrent": {
+    "message": "Go to…"
+  },
+  "paletteRestore": {
+    "message": "Restore"
+  },
+  "paletteSearchWith": {
+    "message": "Search $1"
+  },
+  "paletteSpaces": {
+    "message": "Spaces"
+  },
+  "paletteSwitchToTab": {
+    "message": "Switch to tab"
+  },
+  "paletteTabs": {
+    "message": "Open tabs"
+  },
+  "pinBackToUrl": {
+    "message": "Back to pinned URL"
+  },
+  "pinCloseTab": {
+    "message": "Close tab (keep pinned)"
+  },
+  "pinMoveToFavorites": {
+    "message": "Move to Favorites"
+  },
+  "pinRemove": {
+    "message": "Unpin"
+  },
+  "pinUseCurrentUrl": {
+    "message": "Replace pinned URL with current page"
+  },
+  "pinnedEmpty": {
+    "message": "Drag a tab here to pin it"
+  },
+  "rename": {
+    "message": "Rename"
+  },
+  "save": {
+    "message": "Save"
+  },
+  "search": {
+    "message": "Search"
+  },
+  "selectionClear": {
+    "message": "Clear selection"
+  },
+  "selectionCount": {
+    "message": "$1 selected"
+  },
+  "selectionToFolder": {
+    "message": "Pin into a new folder"
+  },
+  "settings": {
+    "message": "Settings"
+  },
+  "shortcuts": {
+    "message": "Keyboard shortcuts"
+  },
+  "sidebarClose": {
+    "message": "Close sidebar"
+  },
+  "spaceChangeIcon": {
+    "message": "Change Space icon"
+  },
+  "spaceDefaultName": {
+    "message": "Space $1"
+  },
+  "spaceDelete": {
+    "message": "Delete Space"
+  },
+  "spaceDeleteNote": {
+    "message": "Its pinned items are removed and its open tabs move to the archive."
+  },
+  "spaceDeleteTitle": {
+    "message": "Delete \"$1\"?"
+  },
+  "spaceEditColor": {
+    "message": "Edit theme colour"
+  },
+  "spaceManage": {
+    "message": "Manage Spaces"
+  },
+  "spaceMenu": {
+    "message": "Space menu"
+  },
+  "spaceNew": {
+    "message": "New Space"
+  },
+  "spaceRename": {
+    "message": "Rename Space"
+  },
+  "spaceSwitch": {
+    "message": "Switch to Space"
+  },
+  "splitExit": {
+    "message": "Exit Split View"
+  },
+  "splitView": {
+    "message": "Split View"
+  },
+  "tabAddFavorite": {
+    "message": "Add to Favorites"
+  },
+  "tabArchive": {
+    "message": "Archive"
+  },
+  "tabClose": {
+    "message": "Close"
+  },
+  "tabDuplicate": {
+    "message": "Duplicate"
+  },
+  "tabGroup": {
+    "message": "Tab group"
+  },
+  "tabMute": {
+    "message": "Mute"
+  },
+  "tabPin": {
+    "message": "Pin to Space"
+  },
+  "tabSplitSelected": {
+    "message": "Split View with $1 tabs"
+  },
+  "tabSplitWithCurrent": {
+    "message": "Split View with current tab"
+  },
+  "tabToggleMute": {
+    "message": "Mute / unmute"
+  },
+  "tabUnmute": {
+    "message": "Unmute"
+  },
+  "toastCopyFailed": {
+    "message": "Could not copy"
+  },
+  "toastFavoriteToggled": {
+    "message": "Favorites updated"
+  },
+  "toastPinToggled": {
+    "message": "Pin updated"
+  },
+  "toastPinned": {
+    "message": "Pinned"
+  },
+  "toastUrlCopied": {
+    "message": "URL copied"
+  },
+  "todayClear": {
+    "message": "Clear"
+  },
+  "todayClearHint": {
+    "message": "Archive all unpinned tabs"
+  },
+  "urlbarPlaceholder": {
+    "message": "Search or enter URL"
+  },
+  "zapDone": {
+    "message": "Done"
+  },
+  "zapHint": {
+    "message": "⚡ Zap: click an element to hide it"
+  },
+  "zapUndo": {
+    "message": "Undo"
+  }
+}

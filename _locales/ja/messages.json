@@ -1,0 +1,824 @@
+{
+  "actionCopyUrl": {
+    "message": "URL をコピー"
+  },
+  "actionEditBoost": {
+    "message": "$1 の Boost を編集"
+  },
+  "actionMini": {
+    "message": "Little Window を開く"
+  },
+  "actionNextSpace": {
+    "message": "次の Space"
+  },
+  "actionOpenSidebar": {
+    "message": "サイドバーを開く"
+  },
+  "actionPageToMini": {
+    "message": "このページを Little Window で開く"
+  },
+  "actionPrevSpace": {
+    "message": "前の Space"
+  },
+  "actionRefreshLive": {
+    "message": "Live Folder を更新"
+  },
+  "actionReopenArchived": {
+    "message": "最後にアーカイブしたタブを開き直す"
+  },
+  "actionShowArchive": {
+    "message": "アーカイブを表示"
+  },
+  "actionSplit": {
+    "message": "スプリットビューを切り替え"
+  },
+  "actionTitle": {
+    "message": "Arcish サイドバーを開く"
+  },
+  "actionToggleFavorite": {
+    "message": "Favorites に追加 / 解除"
+  },
+  "actionTogglePin": {
+    "message": "タブをピン留め / 解除"
+  },
+  "archive": {
+    "message": "アーカイブ"
+  },
+  "archiveClearAll": {
+    "message": "すべて削除"
+  },
+  "archiveClearTitle": {
+    "message": "アーカイブをすべて削除しますか？"
+  },
+  "archiveEmpty": {
+    "message": "アーカイブされたタブはありません"
+  },
+  "archivePolicy": {
+    "message": "$1 使っていないタブを自動でアーカイブ"
+  },
+  "archivePolicyOff": {
+    "message": "自動アーカイブはオフ"
+  },
+  "archiveSearch": {
+    "message": "アーカイブを検索"
+  },
+  "back": {
+    "message": "戻る"
+  },
+  "cancel": {
+    "message": "キャンセル"
+  },
+  "change": {
+    "message": "変更"
+  },
+  "cmdArchiveTab": {
+    "message": "タブをアーカイブ"
+  },
+  "cmdCommandBar": {
+    "message": "コマンドバー（新しいタブ）"
+  },
+  "cmdCommandBarCurrent": {
+    "message": "コマンドバー（現在のタブの URL を変更）"
+  },
+  "cmdCopyUrl": {
+    "message": "現在の URL をコピー"
+  },
+  "cmdFavoriteTab": {
+    "message": "タブを Favorites に追加 / 解除"
+  },
+  "cmdMiniWindow": {
+    "message": "Little Window を開く"
+  },
+  "cmdNextSpace": {
+    "message": "次の Space"
+  },
+  "cmdPinTab": {
+    "message": "タブを Space にピン留め / 解除"
+  },
+  "cmdPrevSpace": {
+    "message": "前の Space"
+  },
+  "cmdSidebar": {
+    "message": "サイドバーを開く"
+  },
+  "cmdToggleSplit": {
+    "message": "スプリットビューの開始 / 解除"
+  },
+  "cmdZap": {
+    "message": "Zap（ページの要素を消す）"
+  },
+  "color": {
+    "message": "色"
+  },
+  "colorAqua": {
+    "message": "アクア"
+  },
+  "colorCherry": {
+    "message": "チェリー"
+  },
+  "colorCustom": {
+    "message": "好きな色を選ぶ"
+  },
+  "colorGraphite": {
+    "message": "グラファイト"
+  },
+  "colorLavender": {
+    "message": "ラベンダー"
+  },
+  "colorLemon": {
+    "message": "レモン"
+  },
+  "colorMint": {
+    "message": "ミント"
+  },
+  "colorOcean": {
+    "message": "オーシャン"
+  },
+  "colorPeach": {
+    "message": "ピーチ"
+  },
+  "colorRose": {
+    "message": "ローズ"
+  },
+  "commandBar": {
+    "message": "コマンドバー"
+  },
+  "copyUrl": {
+    "message": "URL をコピー"
+  },
+  "create": {
+    "message": "作成"
+  },
+  "defaultSpacePersonal": {
+    "message": "Personal"
+  },
+  "defaultSpaceWork": {
+    "message": "Work"
+  },
+  "delete": {
+    "message": "削除"
+  },
+  "dismiss": {
+    "message": "閉じる"
+  },
+  "errorFavoritesLinksOnly": {
+    "message": "Favorites に置けるのはリンクだけです"
+  },
+  "errorLastSpace": {
+    "message": "最後の Space は削除できません"
+  },
+  "errorSpaceNotFound": {
+    "message": "Space が見つかりません"
+  },
+  "errorSplitNeedsTwo": {
+    "message": "スプリットビューで並べられるタブは 2 つです"
+  },
+  "errorSplitUnsupported": {
+    "message": "この Chrome にはスプリットビュー機能がありません"
+  },
+  "extDescription": {
+    "message": "Space・Favorites・ピン留め・Live Folder・Little Window・スプリットビュー・コマンドバー。Chrome を置き換えずに補助します。"
+  },
+  "extName": {
+    "message": "Arcish — Arc 風サイドバー"
+  },
+  "favMoveToPinned": {
+    "message": "この Space へ移動（ピン留め）"
+  },
+  "favRemove": {
+    "message": "Favorites から外す"
+  },
+  "favorites": {
+    "message": "Favorites"
+  },
+  "favoritesEmpty": {
+    "message": "タブをここへドラッグして Favorites に追加"
+  },
+  "folderChangeIcon": {
+    "message": "アイコンを変更"
+  },
+  "folderDefaultName": {
+    "message": "新しいフォルダ"
+  },
+  "folderDelete": {
+    "message": "フォルダを削除"
+  },
+  "folderIconCustom": {
+    "message": "絵文字や文字を入力"
+  },
+  "folderNew": {
+    "message": "新しいフォルダ"
+  },
+  "folderNewSub": {
+    "message": "サブフォルダを作成"
+  },
+  "folderOpenAll": {
+    "message": "中のリンクをすべて開く"
+  },
+  "irreversible": {
+    "message": "この操作は取り消せません。"
+  },
+  "library": {
+    "message": "ライブラリ"
+  },
+  "libraryArchived": {
+    "message": "アーカイブ"
+  },
+  "libraryBoostOff": {
+    "message": "オフ"
+  },
+  "libraryDownloadMissing": {
+    "message": "ファイルが見つかりません"
+  },
+  "libraryDownloads": {
+    "message": "ダウンロード"
+  },
+  "libraryDownloadsEmpty": {
+    "message": "ダウンロードはありません"
+  },
+  "librarySearchDownloads": {
+    "message": "ダウンロードを検索"
+  },
+  "librarySpaceSummary": {
+    "message": "ピン $1 · タブ $2"
+  },
+  "libraryZaps": {
+    "message": "Zap $1 個"
+  },
+  "liveDelete": {
+    "message": "Live Folder を削除"
+  },
+  "liveDraft": {
+    "message": "ドラフト"
+  },
+  "liveEdit": {
+    "message": "Live Folder を編集"
+  },
+  "liveEditSource": {
+    "message": "ソースを編集"
+  },
+  "liveEmpty": {
+    "message": "項目はありません"
+  },
+  "liveErrorEmptyFeed": {
+    "message": "フィードに項目が見つかりません"
+  },
+  "liveErrorEmptyQuery": {
+    "message": "検索クエリが空です"
+  },
+  "liveErrorRepoFormat": {
+    "message": "owner/name の形式で指定してください"
+  },
+  "liveErrorTokenRequired": {
+    "message": "@me を使うには設定で GitHub トークンを登録してください"
+  },
+  "liveErrorUnknownSource": {
+    "message": "未知のソース: $1"
+  },
+  "liveFieldFeedUrl": {
+    "message": "フィード URL"
+  },
+  "liveFieldKind": {
+    "message": "種類"
+  },
+  "liveFieldQuery": {
+    "message": "検索クエリ"
+  },
+  "liveFieldRepo": {
+    "message": "リポジトリ"
+  },
+  "liveFolders": {
+    "message": "Live Folder"
+  },
+  "liveHintGithubSelf": {
+    "message": "@me を含むクエリには、設定で GitHub トークンの登録が必要です。"
+  },
+  "liveHintGithubToken": {
+    "message": "非公開リポジトリには、設定で GitHub トークンの登録が必要です。"
+  },
+  "liveHintRss": {
+    "message": "RSS / Atom に対応。ブログ、YouTube チャンネル、Reddit (/.rss) など。"
+  },
+  "liveHnAsk": {
+    "message": "Ask HN"
+  },
+  "liveHnFrontPage": {
+    "message": "トップ"
+  },
+  "liveHnShow": {
+    "message": "Show HN"
+  },
+  "liveMarkAllRead": {
+    "message": "すべて既読にする"
+  },
+  "liveMarkRead": {
+    "message": "既読にする"
+  },
+  "liveNameOptional": {
+    "message": "名前（空欄で自動）"
+  },
+  "liveNew": {
+    "message": "新しい Live Folder"
+  },
+  "livePresetAssigned": {
+    "message": "自分にアサイン"
+  },
+  "livePresetMentions": {
+    "message": "メンション"
+  },
+  "livePresetMyPulls": {
+    "message": "自分の PR"
+  },
+  "livePresetReviewRequested": {
+    "message": "レビュー依頼"
+  },
+  "liveRefreshNow": {
+    "message": "今すぐ更新"
+  },
+  "liveShowLess": {
+    "message": "折りたたむ"
+  },
+  "liveShowMore": {
+    "message": "ほか $1 件を表示"
+  },
+  "liveSourceGithubIssues": {
+    "message": "GitHub Issues"
+  },
+  "liveSourceGithubPulls": {
+    "message": "GitHub Pull Requests"
+  },
+  "liveSourceGithubSearch": {
+    "message": "GitHub 検索"
+  },
+  "liveSourceHackerNews": {
+    "message": "Hacker News"
+  },
+  "liveSourceRss": {
+    "message": "RSS / Atom"
+  },
+  "liveStatusFailure": {
+    "message": "チェック失敗"
+  },
+  "liveStatusPending": {
+    "message": "チェック実行中"
+  },
+  "liveStatusSuccess": {
+    "message": "チェック成功"
+  },
+  "liveTitleIssues": {
+    "message": "$1 Issues"
+  },
+  "liveTitlePulls": {
+    "message": "$1 PRs"
+  },
+  "loading": {
+    "message": "読み込み中…"
+  },
+  "mediaPlayPause": {
+    "message": "再生 / 一時停止"
+  },
+  "menu": {
+    "message": "メニュー"
+  },
+  "menuCommandBar": {
+    "message": "コマンドバー"
+  },
+  "menuMiniWindow": {
+    "message": "Little Window"
+  },
+  "menuOpenInMini": {
+    "message": "Little Window で開く"
+  },
+  "menuOpenInSplit": {
+    "message": "スプリットビューで開く"
+  },
+  "menuPinLink": {
+    "message": "リンクを Space にピン留め"
+  },
+  "menuSettings": {
+    "message": "設定"
+  },
+  "menuToggleFavorite": {
+    "message": "Favorites に追加 / 解除"
+  },
+  "menuTogglePin": {
+    "message": "Space にピン留め / 解除"
+  },
+  "menuZap": {
+    "message": "Zap: このページの要素を消す"
+  },
+  "miniCopyUrl": {
+    "message": "URL をコピー"
+  },
+  "miniHintOpenHere": {
+    "message": "ここで開く"
+  },
+  "miniOpenInMain": {
+    "message": "メインウィンドウで開く"
+  },
+  "miniPlaceholder": {
+    "message": "検索または URL を入力"
+  },
+  "miniWindow": {
+    "message": "Little Window"
+  },
+  "moveToSpace": {
+    "message": "別の Space へ移動"
+  },
+  "name": {
+    "message": "名前"
+  },
+  "navBack": {
+    "message": "戻る"
+  },
+  "navForward": {
+    "message": "進む"
+  },
+  "navReload": {
+    "message": "再読み込み"
+  },
+  "newTab": {
+    "message": "新しいタブ"
+  },
+  "open": {
+    "message": "開く"
+  },
+  "openInMini": {
+    "message": "Little Window で開く"
+  },
+  "optArchiveAfter": {
+    "message": "使っていないタブを自動アーカイブ"
+  },
+  "optArchiveAfterHint": {
+    "message": "この時間使っていない未ピン留めタブを閉じます。アーカイブからいつでも復元できます。"
+  },
+  "optBackup": {
+    "message": "バックアップ"
+  },
+  "optBackupHint": {
+    "message": "Space、Favorites、ピン留め、設定、Boost を 1 つの JSON ファイルに書き出します。"
+  },
+  "optBoosts": {
+    "message": "Boosts"
+  },
+  "optBoostsAdd": {
+    "message": "サイトを追加"
+  },
+  "optBoostsEmpty": {
+    "message": "Boost はまだありません"
+  },
+  "optBoostsNote": {
+    "message": "サイトごとのカスタム CSS と、Zap で消した要素。"
+  },
+  "optChrome": {
+    "message": "Chrome との連携"
+  },
+  "optChromeNote": {
+    "message": "Chrome 本来の動作を変える項目です。必要なものだけオンにしてください。"
+  },
+  "optColorScheme": {
+    "message": "外観"
+  },
+  "optCustomSearch": {
+    "message": "カスタム検索 URL"
+  },
+  "optCustomSearchHint": {
+    "message": "検索語の位置に $1 を入れてください"
+  },
+  "optData": {
+    "message": "データ"
+  },
+  "optExport": {
+    "message": "エクスポート"
+  },
+  "optGeneral": {
+    "message": "一般"
+  },
+  "optGithubToken": {
+    "message": "GitHub トークン"
+  },
+  "optGithubTokenHint": {
+    "message": "この端末にのみ保存されます。非公開リポジトリと @me クエリに必要です。"
+  },
+  "optImport": {
+    "message": "インポート"
+  },
+  "optImported": {
+    "message": "インポートしました"
+  },
+  "optLanguage": {
+    "message": "言語"
+  },
+  "optLanguageAuto": {
+    "message": "ブラウザと同じ"
+  },
+  "optLead": {
+    "message": "Arcish は Chrome の補助です。Chrome 本来の動作を変える機能は、オンにするまで働きません。"
+  },
+  "optLive": {
+    "message": "Live Folder"
+  },
+  "optLiveRefresh": {
+    "message": "更新間隔（分）"
+  },
+  "optMiniHeight": {
+    "message": "Little Window の高さ"
+  },
+  "optMiniWidth": {
+    "message": "Little Window の幅"
+  },
+  "optNever": {
+    "message": "しない"
+  },
+  "optNewTabsOnTop": {
+    "message": "新しいタブを上に表示"
+  },
+  "optOpenChromeSettings": {
+    "message": "Chrome の設定を開く"
+  },
+  "optPeek": {
+    "message": "Shift+クリックでリンクを Little Window で開く"
+  },
+  "optPeekHint": {
+    "message": "Chrome 標準の「新しいウィンドウで開く」を置き換えます。Shift+クリックを自前で処理するページには干渉しません。"
+  },
+  "optRouting": {
+    "message": "Air Traffic Control"
+  },
+  "optRoutingAdd": {
+    "message": "ルールを追加"
+  },
+  "optRoutingEmpty": {
+    "message": "ルールはまだありません"
+  },
+  "optRoutingNote": {
+    "message": "新しく開いたタブを URL で Space に振り分けます。「github.com」はサブドメインも含めて一致し、* でワイルドカードを使えます。"
+  },
+  "optScheme_auto": {
+    "message": "システムに合わせる"
+  },
+  "optScheme_dark": {
+    "message": "ダーク"
+  },
+  "optScheme_light": {
+    "message": "ライト"
+  },
+  "optSearchCustom": {
+    "message": "カスタム…"
+  },
+  "optSearchEngine": {
+    "message": "検索エンジン"
+  },
+  "optShortcutsHint": {
+    "message": "ショートカットは Chrome が管理するので、ページの操作とぶつかりません。"
+  },
+  "optSidebarPosition": {
+    "message": "サイドバーの位置"
+  },
+  "optSidebarPositionHint": {
+    "message": "左右どちらに出すかは Chrome 側の設定です（設定 → デザイン → サイドパネルの位置）。"
+  },
+  "optSpaceMode": {
+    "message": "Space とタブストリップ"
+  },
+  "optSpaceModeHint_groups": {
+    "message": "Space を Chrome のタブグループとして表示し、表示中以外の Space を折りたたみます。"
+  },
+  "optSpaceModeHint_sidebar": {
+    "message": "Space はサイドバーの中だけで管理します。Chrome のタブストリップには触れません。"
+  },
+  "optSpaceMode_groups": {
+    "message": "タブグループと連動"
+  },
+  "optSpaceMode_sidebar": {
+    "message": "サイドバーのみ"
+  },
+  "optSpacesNote": {
+    "message": "Space の名前・アイコン・色の変更と削除ができます。"
+  },
+  "optTabAuthority": {
+    "message": "Arcish タブ優先モード（Tab Overwrite）"
+  },
+  "optTabAuthorityHint": {
+    "message": "Chrome のタブストリップ側でピン留めの変更やタブグループの移動をしたときに、どちらを優先するかを決めます。"
+  },
+  "optTabAuthorityHint_all": {
+    "message": "すべてのタブを Arcish 側の状態に戻します。Chrome で新しく開いたタブは、これまでどおり現在の Space に入ります。"
+  },
+  "optTabAuthorityHint_none": {
+    "message": "Chrome 側の操作を優先し、Arcish がそれに合わせます。"
+  },
+  "optTabAuthorityHint_pinned": {
+    "message": "Favorites とピン留めのタブは、Arcish 側の状態に戻します。"
+  },
+  "optTabAuthority_all": {
+    "message": "すべてのタブを上書き"
+  },
+  "optTabAuthority_none": {
+    "message": "上書きしない"
+  },
+  "optTabAuthority_pinned": {
+    "message": "固定タブだけ上書き"
+  },
+  "optTitle": {
+    "message": "Arcish 設定"
+  },
+  "optWindows": {
+    "message": "ウィンドウ"
+  },
+  "paletteActions": {
+    "message": "アクション"
+  },
+  "paletteBookmarks": {
+    "message": "ブックマーク"
+  },
+  "paletteHintMove": {
+    "message": "移動"
+  },
+  "paletteHintOpen": {
+    "message": "開く"
+  },
+  "paletteHistory": {
+    "message": "履歴"
+  },
+  "paletteMoveTabHere": {
+    "message": "タブをここへ移動"
+  },
+  "paletteOpenUrl": {
+    "message": "開く"
+  },
+  "palettePinned": {
+    "message": "Favorites / ピン留め"
+  },
+  "palettePlaceholder": {
+    "message": "検索または URL を入力…"
+  },
+  "palettePlaceholderCurrent": {
+    "message": "移動先を入力…"
+  },
+  "paletteRestore": {
+    "message": "復元"
+  },
+  "paletteSearchWith": {
+    "message": "$1 で検索"
+  },
+  "paletteSpaces": {
+    "message": "Space"
+  },
+  "paletteSwitchToTab": {
+    "message": "タブに切り替え"
+  },
+  "paletteTabs": {
+    "message": "開いているタブ"
+  },
+  "pinBackToUrl": {
+    "message": "ピン留めした URL に戻る"
+  },
+  "pinCloseTab": {
+    "message": "タブを閉じる（ピンは残す）"
+  },
+  "pinMoveToFavorites": {
+    "message": "Favorites へ移動"
+  },
+  "pinRemove": {
+    "message": "ピン留めを外す"
+  },
+  "pinUseCurrentUrl": {
+    "message": "現在のページでピンの URL を更新"
+  },
+  "pinnedEmpty": {
+    "message": "タブをここへドラッグしてピン留め"
+  },
+  "rename": {
+    "message": "名前を変更"
+  },
+  "save": {
+    "message": "保存"
+  },
+  "search": {
+    "message": "検索"
+  },
+  "selectionClear": {
+    "message": "選択を解除"
+  },
+  "selectionCount": {
+    "message": "$1 個選択"
+  },
+  "selectionToFolder": {
+    "message": "新しいフォルダにまとめてピン留め"
+  },
+  "settings": {
+    "message": "設定"
+  },
+  "shortcuts": {
+    "message": "キーボードショートカット"
+  },
+  "sidebarClose": {
+    "message": "サイドバーを閉じる"
+  },
+  "spaceChangeIcon": {
+    "message": "Space のアイコンを変更"
+  },
+  "spaceDefaultName": {
+    "message": "Space $1"
+  },
+  "spaceDelete": {
+    "message": "Space を削除"
+  },
+  "spaceDeleteNote": {
+    "message": "この Space のピン留めは削除され、開いているタブはアーカイブに移動します。"
+  },
+  "spaceDeleteTitle": {
+    "message": "「$1」を削除しますか？"
+  },
+  "spaceEditColor": {
+    "message": "テーマカラーを編集"
+  },
+  "spaceManage": {
+    "message": "Space を管理"
+  },
+  "spaceMenu": {
+    "message": "Space メニュー"
+  },
+  "spaceNew": {
+    "message": "新しい Space"
+  },
+  "spaceRename": {
+    "message": "Space の名前を変更"
+  },
+  "spaceSwitch": {
+    "message": "Space に切り替え"
+  },
+  "splitExit": {
+    "message": "スプリットを解除"
+  },
+  "splitView": {
+    "message": "スプリットビュー"
+  },
+  "tabAddFavorite": {
+    "message": "Favorites に追加"
+  },
+  "tabArchive": {
+    "message": "アーカイブ"
+  },
+  "tabClose": {
+    "message": "閉じる"
+  },
+  "tabDuplicate": {
+    "message": "複製"
+  },
+  "tabGroup": {
+    "message": "タブグループ"
+  },
+  "tabMute": {
+    "message": "ミュート"
+  },
+  "tabPin": {
+    "message": "Space にピン留め"
+  },
+  "tabSplitSelected": {
+    "message": "$1 個のタブでスプリット"
+  },
+  "tabSplitWithCurrent": {
+    "message": "現在のタブとスプリット"
+  },
+  "tabToggleMute": {
+    "message": "ミュート切り替え"
+  },
+  "tabUnmute": {
+    "message": "ミュート解除"
+  },
+  "toastCopyFailed": {
+    "message": "コピーできませんでした"
+  },
+  "toastFavoriteToggled": {
+    "message": "Favorites を更新しました"
+  },
+  "toastPinToggled": {
+    "message": "ピン留めを更新しました"
+  },
+  "toastPinned": {
+    "message": "ピン留めしました"
+  },
+  "toastUrlCopied": {
+    "message": "URL をコピーしました"
+  },
+  "todayClear": {
+    "message": "クリア"
+  },
+  "todayClearHint": {
+    "message": "未ピン留めのタブをすべてアーカイブ"
+  },
+  "urlbarPlaceholder": {
+    "message": "検索または URL を入力"
+  },
+  "zapDone": {
+    "message": "完了"
+  },
+  "zapHint": {
+    "message": "⚡ Zap: 消したい要素をクリック"
+  },
+  "zapUndo": {
+    "message": "元に戻す"
+  }
+}
