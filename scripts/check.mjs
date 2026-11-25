@@ -5,6 +5,7 @@
 //   3. every i18n key referenced in code/manifest/HTML exists, none is unused
 //   4. every file referenced by the manifest exists
 //   5. every relative import resolves, and every imported name is exported
+//   6. store-facing manifest texts fit the Chrome Web Store's length limits in every locale
 import { execFileSync } from 'node:child_process';
 import { existsSync, readdirSync, readFileSync, statSync } from 'node:fs';
 import { dirname, join, relative } from 'node:path';
@@ -105,6 +106,17 @@ for (const file of sources) {
     const wanted = named.split(',').map((n) => n.trim().split(/\s+as\s+/)[0]).filter(Boolean);
     if (clause.replace(/\{[^}]*\}/, '').replace(',', '').trim()) wanted.push('default');
     for (const name of wanted) if (!available.has(name)) fail(`import: ${rel(file)} imports "${name}" which ${rel(target)} does not export`);
+  }
+}
+
+// 6. Chrome Web Store limits (characters) for texts taken from the manifest
+const STORE_LIMITS = { name: 75, short_name: 12, description: 132 };
+for (const [field, limit] of Object.entries(STORE_LIMITS)) {
+  const key = manifest[field]?.match(/^__MSG_(.+)__$/)?.[1];
+  const texts = key ? Object.entries(locales).map(([code, messages]) => [code, messages[key]?.message ?? '']) : [['manifest', manifest[field] ?? '']];
+  for (const [where, text] of texts) {
+    const length = [...text].length;
+    if (length > limit) fail(`store: ${field} in "${where}" is ${length} characters (limit ${limit})`);
   }
 }
 
