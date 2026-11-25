@@ -3,95 +3,28 @@
 // Starts a throw-away headless Chrome (own profile, own port) with the
 // extension loaded, and checks that the service worker boots and that the
 // extension pages and the in-page command bar work without errors.
-import { spawn } from 'node:child_process';
-import { mkdirSync, mkdtempSync, rmSync, writeFileSync } from 'node:fs';
+import { mkdirSync } from 'node:fs';
 import { createServer } from 'node:http';
-import { tmpdir } from 'node:os';
 import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
+import { launchBrowser, sleep, waitFor } from './lib/browser.mjs';
 
 // The extension to test: the working tree, or an unpacked build (SMOKE_EXTENSION_DIR).
 const ROOT = process.env.SMOKE_EXTENSION_DIR || join(dirname(fileURLToPath(import.meta.url)), '..');
-const CHROME = process.env.CHROME_BIN || '/Applications/Google Chrome.app/Contents/MacOS/Google Chrome';
-// A free port, so runs never collide with each other or with another Chrome.
-const freePort = () =>
-  new Promise((resolve) => {
-    const probe = createServer().listen(0, '127.0.0.1', () => {
-      const { port } = probe.address();
-      probe.close(() => resolve(port));
-    });
-  });
-const DEBUG_PORT = Number(process.env.SMOKE_PORT) || (await freePort());
 const EXTRA_FLAGS = (process.env.SMOKE_CHROME_FLAGS || '').split(' ').filter(Boolean); // e.g. --no-sandbox on CI
-const BOOT_TIMEOUT_MS = 20_000;
 const SHOTS_DIR = process.env.SMOKE_SHOTS; // optional: directory for screenshots of the UI
-const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
 const results = [];
 const check = (name, ok, detail = '') => results.push({ name, ok: !!ok, detail });
 
-async function targets() {
-  return (await fetch(`http://127.0.0.1:${DEBUG_PORT}/json/list`)).json();
-}
-
-async function waitFor(fn, what, timeout = BOOT_TIMEOUT_MS) {
-  const deadline = Date.now() + timeout;
-  while (Date.now() < deadline) {
-    try {
-      const value = await fn();
-      if (value) return value;
-    } catch {
-      /* not up yet */
-    }
-    await sleep(200);
+// Screenshot a page at a given size, optionally after running `prepare` in it.
+async function shoot(page, file, width, height, prepare) {
+  await page.setViewport(width, height, { scheme: process.env.SMOKE_SCHEME || 'light' });
+  await sleep(700);
+  if (prepare) {
+    await page.evaluate(prepare);
+    await sleep(300);
   }
-  throw new Error(`timed out waiting for ${what}`);
-}
-
-// Minimal Chrome DevTools Protocol client.
-async function attach(target) {
-  const ws = new WebSocket(target.webSocketDebuggerUrl);
-  await new Promise((resolve, reject) => {
-    ws.onopen = resolve;
-    ws.onerror = reject;
-  });
-  let id = 0;
-  const pending = new Map();
-  const errors = [];
-  ws.onmessage = ({ data }) => {
-    const msg = JSON.parse(data);
-    if (msg.id && pending.has(msg.id)) pending.get(msg.id)(msg);
-    if (msg.method === 'Runtime.exceptionThrown') errors.push(msg.params.exceptionDetails.exception?.description || msg.params.exceptionDetails.text);
-    if (msg.method === 'Log.entryAdded' && msg.params.entry.level === 'error') errors.push(msg.params.entry.text);
-    if (msg.method === 'Runtime.consoleAPICalled' && msg.params.type === 'error') errors.push(msg.params.args.map((a) => a.value ?? a.description).join(' '));
-  };
-  const send = (method, params = {}) => new Promise((resolve) => {
-    pending.set(++id, resolve);
-    ws.send(JSON.stringify({ id, method, params }));
-  });
-  await send('Runtime.enable');
-  await send('Log.enable');
-  const evaluate = async (expression) => {
-    const { result } = await send('Runtime.evaluate', { expression, awaitPromise: true, returnByValue: true });
-    if (result.exceptionDetails) throw new Error(result.exceptionDetails.exception?.description || result.exceptionDetails.text);
-    return result.result.value;
-  };
-  const screenshot = async (file, width, height, prepare) => {
-    await send('Emulation.setDeviceMetricsOverride', { width, height, deviceScaleFactor: 2, mobile: false });
-    await send('Emulation.setEmulatedMedia', { features: [{ name: 'prefers-color-scheme', value: process.env.SMOKE_SCHEME || 'light' }] });
-    await sleep(700);
-    if (prepare) {
-      await evaluate(prepare);
-      await sleep(300);
-    }
-    const { result } = await send('Page.captureScreenshot', { format: 'png' });
-    writeFileSync(file, Buffer.from(result.data, 'base64'));
-  };
-  return { evaluate, screenshot, errors, close: () => ws.close() };
-}
-
-async function openPage(url) {
-  const target = await (await fetch(`http://127.0.0.1:${DEBUG_PORT}/json/new?${encodeURIComponent(url)}`, { method: 'PUT' })).json();
-  return attach(target);
+  await page.capture({ file });
 }
 
 const site = createServer((_req, res) => {
@@ -101,45 +34,11 @@ const site = createServer((_req, res) => {
 await new Promise((resolve) => site.listen(0, '127.0.0.1', resolve));
 const siteUrl = `http://127.0.0.1:${site.address().port}/`;
 
-const profile = mkdtempSync(join(tmpdir(), 'arcish-smoke-'));
-// Branded Chrome ignores --load-extension, so the extension is loaded through
-// the DevTools protocol (Extensions.loadUnpacked), which is only available on
-// the debugging pipe. Everything else uses the debugging port.
-const chrome = spawn(CHROME, [
-  '--headless=new',
-  `--user-data-dir=${profile}`,
-  `--remote-debugging-port=${DEBUG_PORT}`,
-  '--remote-debugging-pipe',
-  '--enable-unsafe-extension-debugging',
-  '--no-first-run',
-  '--no-default-browser-check',
-  ...EXTRA_FLAGS,
-  'about:blank',
-], { stdio: ['ignore', 'ignore', 'ignore', 'pipe', 'pipe'] });
-
-for (const stream of [chrome.stdio[3], chrome.stdio[4]]) stream.on('error', () => {}); // Chrome exiting early is reported by the checks, not by a crash
-
-function pipeCommand(method, params) {
-  return new Promise((resolve, reject) => {
-    let buffer = '';
-    chrome.stdio[4].on('data', (chunk) => {
-      buffer += chunk;
-      for (let end = buffer.indexOf('\0'); end >= 0; end = buffer.indexOf('\0')) {
-        const message = JSON.parse(buffer.slice(0, end));
-        buffer = buffer.slice(end + 1);
-        if (message.id === 1) (message.error ? reject(new Error(message.error.message)) : resolve(message.result));
-      }
-    });
-    chrome.stdio[3].write(`${JSON.stringify({ id: 1, method, params })}\0`);
-  });
-}
+const browser = await launchBrowser({ extensionDir: ROOT, flags: EXTRA_FLAGS, port: Number(process.env.SMOKE_PORT) || undefined });
+const { targets, openPage } = browser;
 
 try {
-  await waitFor(targets, 'Chrome');
-  await pipeCommand('Extensions.loadUnpacked', { path: ROOT });
-  const worker = await waitFor(async () => (await targets()).find((t) => t.type === 'service_worker' && t.url.endsWith('/src/background/index.js')), 'service worker');
-  const base = worker.url.replace('/src/background/index.js', '');
-  const sw = await attach(worker);
+  const { worker: sw, baseUrl: base } = await browser.loadExtension();
 
   // 1. boot
   const state = await waitFor(async () => {
@@ -289,7 +188,7 @@ try {
       ['settings-chrome.png', 'src/options/options.html#chrome', 1000, 700],
     ]) {
       const shot = await openPage(`${base}/${path}`);
-      await shot.screenshot(join(SHOTS_DIR, file), width, height, prepare);
+      await shoot(shot, join(SHOTS_DIR, file), width, height, prepare);
       shot.close();
     }
   }
@@ -317,9 +216,7 @@ try {
   const before = JSON.parse(await sw.evaluate('Promise.all([chrome.storage.local.get("favorites"), chrome.storage.session.get("bindings")]).then(([l, s]) => JSON.stringify({ favorites: l.favorites, bindings: s.bindings }))'));
   const favoriteId = before.favorites.at(-1).id;
   await sw.evaluate('chrome.storage.session.set({ smokeMarker: 1 }).then(() => 1)');
-  await pipeCommand('Extensions.loadUnpacked', { path: ROOT }); // loading it again replaces the running copy, like an update
-  await sleep(1500);
-  const reloaded = await attach(await waitFor(async () => (await targets()).find((t) => t.type === 'service_worker' && t.url.endsWith('/src/background/index.js')), 'service worker after reload'));
+  const { worker: reloaded } = await browser.loadExtension(); // loading it again replaces the running copy, like an update
   const after = await waitFor(async () => {
     const data = JSON.parse(await reloaded.evaluate('Promise.all([chrome.storage.local.get("favorites"), chrome.storage.session.get(["bindings", "booted"])]).then(([l, s]) => JSON.stringify({ favorites: l.favorites, ...s }))'));
     return data.booted && data;
@@ -332,10 +229,8 @@ try {
 } catch (e) {
   check('smoke run completed', false, String(e.stack || e));
 } finally {
-  chrome.kill();
+  await browser.close();
   site.close();
-  await sleep(300);
-  rmSync(profile, { recursive: true, force: true });
 }
 
 for (const r of results) console.log(`${r.ok ? '✔' : '✖'} ${r.name}${r.detail && !r.ok ? `\n    ${r.detail}` : r.detail ? `  (${r.detail})` : ''}`);
