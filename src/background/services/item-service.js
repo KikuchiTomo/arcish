@@ -7,6 +7,7 @@
 //   Favorites -> opened as Chrome pinned tabs (shared by all spaces)
 //   Pinned    -> opened as regular tabs that belong to the item's space
 import { MARK_MAX_CHARS } from '../../config/folder-icons.js';
+import { hasIcon } from '../../shared/icons.js';
 import { LOCAL, NODE, ZONE } from '../../shared/storage-keys.js';
 import { uid } from '../../shared/text.js';
 import * as tree from '../../shared/tree.js';
@@ -219,7 +220,8 @@ export class ItemService {
   async setIcon(nodeId, icon) {
     const loc = this.locate(nodeId);
     if (!loc || loc.zone === ZONE.LIVE || loc.node.type === NODE.LINK) return;
-    const mark = [...String(icon || '').trim()].slice(0, MARK_MAX_CHARS).join('');
+    const text = String(icon || '').trim();
+    const mark = hasIcon(text) ? text : [...text].slice(0, MARK_MAX_CHARS).join(''); // the length limit is for typed text, not for icon names
     if (mark) loc.node.icon = mark;
     else delete loc.node.icon;
     await this.#store.save(LOCAL.SPACES);
