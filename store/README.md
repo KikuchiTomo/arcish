@@ -5,6 +5,7 @@
 | ファイル | 用途 | サイズ |
 | --- | --- | --- |
 | `icon-128.png` | ストアアイコン。絵柄は 96×96 で、周囲 16px は透明（ストアの指定） | 128×128 |
+| `en.txt`、`ja.txt` | ダッシュボードの各欄に入力する文 | — |
 | `en/screenshot-*.jpg`、`ja/screenshot-*.jpg` | スクリーンショット（言語ごとに 5 枚） | 1280×800 |
 | `promo-small.jpg` | プロモーション タイル（小） | 440×280 |
 | `promo-marquee.jpg` | マーキー プロモーション タイル | 1400×560 |
@@ -28,62 +29,13 @@ npm run icons          # 拡張機能のアイコンとストアアイコン
 
 効果音は素材集を使わず、波形から合成しています。手持ちの音源に差し替える場合は、動画と同じ長さの WAV を用意して `scripts/store-film.mjs` の合成結果と入れ替えます。
 
-## 掲載文
+## ダッシュボードに入力する文
 
-### 概要（132 文字以内。`_locales` の `extDescription` と同じ）
+デベロッパー ダッシュボードの各欄に貼り付ける文を、欄の名前ごとにまとめてあります。
 
-- 英語: Spaces, Favorites, pinned tabs, Live Folders, Little Window, Split View and a command bar. Assists Chrome instead of replacing it.
-- 日本語: Chrome のタブ体験を大幅アップデート！
+- `en.txt` — 英語。掲載情報と「プライバシーへの取り組み」（単一用途、各権限の理由、リモートコード、データ使用）
+- `ja.txt` — 同じ内容の日本語
 
-### 詳細な説明（英語）
+「プライバシーへの取り組み」の欄は全言語共通で 1 組しかないので、英語を入れます。プライバシー ポリシーの URL には、リポジトリの `PRIVACY.md` を指定します。
 
-```
-Arcish adds an Arc-style sidebar to Chrome's side panel.
-
-• Favorites and pins — a pin stays when you close its tab and reopens with one click.
-• Spaces — a set of tabs for each part of your day, each with its own colour. Swipe to switch.
-• Live Folders — pull requests, issues and feeds that refresh on their own, with build status.
-• Command bar — jump to tabs, pins, bookmarks and history, or run an action from the keyboard.
-• Library — archived tabs, downloads, Spaces and Boosts in one searchable place.
-• Split View and Little Window — two pages side by side, or a small window for a quick look.
-• Boosts — your own CSS for a site, and Zap to hide elements you do not want to see.
-
-Arcish assists Chrome; it does not take it over. Anything that changes how Chrome itself behaves (closing unused tabs, mirroring Spaces as tab groups, overriding changes made in the tab strip) is off until you turn it on.
-
-Your data stays on your device. Nothing is sent anywhere except the requests you set up yourself in a Live Folder (for example to GitHub or to a feed).
-```
-
-### 詳細な説明（日本語）
-
-```
-Arcish は、Chrome のサイドパネルに Arc 風のサイドバーを追加します。
-
-・Favorites とピン留め — タブを閉じてもピンは残り、ワンクリックで開き直せます。
-・Space — 用途ごとのタブのまとまり。それぞれに色を付けられ、スワイプで切り替わります。
-・Live Folder — プルリクエスト、Issue、フィードを自動で更新し、ビルドの状態も表示します。
-・コマンドバー — タブ、ピン留め、ブックマーク、履歴への移動や操作の実行をキーボードから。
-・ライブラリ — アーカイブしたタブ、ダウンロード、Space、Boost をまとめて検索できます。
-・スプリットビューと Little Window — 2 つのページを並べて表示、または小さなウィンドウで確認。
-・Boost — サイトごとの独自 CSS と、見たくない要素を消す Zap。
-
-Arcish は Chrome を補助するもので、乗っ取りません。Chrome 本来の動作を変える機能（使っていないタブを閉じる、Space をタブグループとして表示する、タブストリップでの操作を上書きする）は、オンにするまで働きません。
-
-データは端末の中に保存されます。Live Folder で自分で設定した取得先（GitHub やフィードなど）へのリクエスト以外、外部には何も送信しません。
-```
-
-## 権限の用途（審査の入力欄用）
-
-| 権限 | 用途 |
-| --- | --- |
-| `tabs`、`tabGroups` | サイドバーにタブを一覧表示し、切り替え・並べ替え・Space への振り分けを行う |
-| `sidePanel` | サイドバーをサイドパネルに表示する |
-| `storage`、`unlimitedStorage` | Space、Favorites、ピン留め、アーカイブ、設定を端末内に保存する |
-| `alarms` | Live Folder の定期更新と、設定時の自動アーカイブ |
-| `contextMenus` | 右クリックメニューに「Little Window で開く」などを追加する |
-| `scripting` | 再生中のタブの再生／一時停止をサイドバーから操作する |
-| `favicon` | タブやピン留めのアイコンを表示する |
-| `history`、`bookmarks` | コマンドバーで履歴とブックマークを検索する |
-| `downloads`、`downloads.open` | ライブラリにダウンロード一覧を表示し、ファイルを開く |
-| `system.display` | Little Window を画面内に収まる位置へ出す |
-| `clipboardWrite` | 現在の URL をコピーする |
-| ホスト権限（すべてのサイト） | ページ上へのコマンドバー表示、Boost（独自 CSS）の適用、Live Folder でのフィード取得 |
+権限を足したり外したりしたら、両方のファイルの該当する欄も直します。

@@ -1,0 +1,126 @@
+ARCISH — TEXT FOR THE CHROME WEB STORE DEVELOPER DASHBOARD (ENGLISH)
+
+Each block below is the text for one field. The line in [brackets] is the
+field's name in the dashboard; paste what follows it.
+The Privacy practices tab has one set of fields for all languages. Use this
+English text there (reviewers read it); ja.txt holds the same in Japanese.
+
+
+======================================================================
+STORE LISTING
+======================================================================
+
+[Title]  (taken from the package, shown here for reference)
+Arcish — Arc-style sidebar
+
+[Summary]  (taken from the package, shown here for reference)
+Spaces, Favorites, pinned tabs, Live Folders, Little Window, Split View and a command bar. Assists Chrome instead of replacing it.
+
+[Description]
+Arcish adds a sidebar to Chrome's side panel that keeps your tabs in order.
+
+• Favorites and pins — a pin stays when you close its tab and reopens with one click.
+• Spaces — a set of tabs for each part of your day, each with its own colour. Swipe to switch.
+• Folders — group pins, nest folders, and give each one its own icon.
+• Live Folders — pull requests, issues and feeds that refresh on their own, with build status.
+• Command bar — jump to tabs, pins, bookmarks and history, or run an action from the keyboard.
+• Library — archived tabs, downloads, Spaces and Boosts in one searchable place.
+• Split View and Little Window — two pages side by side, or a small window for a quick look.
+• Boosts — your own CSS for a site, and Zap to hide elements you do not want to see.
+
+Arcish assists Chrome; it does not take it over. Anything that changes how Chrome itself behaves (closing unused tabs, showing Spaces as tab groups, overriding changes made in the tab strip) is off until you turn it on.
+
+Your data stays on your device. Arcish has no server and no analytics. The only network requests it makes are the ones you set up yourself in a Live Folder (to GitHub, Hacker News or a feed address you enter).
+
+Source code: https://github.com/KikuchiTomo/arcish
+
+[Category]
+Productivity > Workflow & Planning
+
+[Language]
+English
+
+
+======================================================================
+PRIVACY PRACTICES
+======================================================================
+
+[Single purpose]
+Arcish is a tab manager. It adds a sidebar to Chrome's side panel in which the user organises and moves between the tabs of the window: Spaces that group tabs, favorites and pinned tabs that stay available after their tab is closed, folders (including folders filled from a feed the user chooses), an archive of closed tabs, and a command bar for jumping to a tab. Every permission below serves this one purpose.
+
+[Justification for tabs]
+The sidebar is a list of the window's tabs, so it needs each tab's title, address and icon, which only this permission provides. It also uses the tabs API to act on what the user does in the sidebar: select, open, close, move, pin and unpin tabs, and to find the tab that already belongs to a favorite or a pin instead of opening a duplicate.
+
+[Justification for tabGroups]
+Used only by an optional setting that is off by default: "Mirror Spaces as tab groups". When the user turns it on, each Space is shown as a Chrome tab group with the Space's name and colour, and Arcish follows changes the user makes to those groups so the sidebar and the tab strip stay the same.
+
+[Justification for sidePanel]
+The whole interface of the extension is a sidebar shown in Chrome's side panel. The permission is needed to register that panel and to open it when the user clicks the toolbar button or chooses "Open sidebar" in the command bar.
+
+[Justification for storage]
+Saves what the user builds in the sidebar on their own device: Spaces, favorites, pins, folders, the archive of closed tabs, cached Live Folder entries, Boosts and settings (chrome.storage.local), and which Space each open tab belongs to during the browser session (chrome.storage.session). Nothing is synced or sent anywhere.
+
+[Justification for alarms]
+Two periodic jobs that must run while the sidebar is closed and the service worker is asleep: refreshing Live Folders at the interval the user chose, and, only if the user enables auto-archive, checking for tabs that have not been used for the chosen time.
+
+[Justification for contextMenus]
+Adds tab-management commands to the right-click menu: on a link, "Open in Little Window", "Open in Split View" and "Pin link to Space"; on a page, "Add to / remove from Favorites", "Pin to / unpin from Space", "Open in Little Window" and "Zap: hide elements on this page"; on the toolbar button, "Little Window", "Command bar" and "Settings".
+
+[Justification for scripting]
+The sidebar shows a play/pause control for a tab that is playing audio. Pressing it runs one small function, shipped inside the extension, in that tab to pause or resume its media elements. Nothing else is injected with this permission, and no page content is read.
+
+[Justification for favicon]
+Shows each site's icon next to tabs, favorites, pins, archive entries and command bar results, including for pins whose tab is currently closed. The icons come from Chrome's own local favicon cache through the favicon API, so no request is made to any server for them.
+
+[Justification for history]
+The command bar lets the user find a page they visited before by typing part of its title or address. The history is searched only while the user types a query in the command bar, the matches are shown as results, and nothing from it is stored or sent anywhere.
+
+[Justification for bookmarks]
+The command bar also searches the user's bookmarks by title or address so that a bookmarked page can be opened from the keyboard. Access is read-only: Arcish never creates, edits or deletes bookmarks.
+
+[Justification for system.display]
+Little Window opens a small browser window for a quick look at a page. The work area of the screen the browser is on is read so that this window is placed fully inside the visible screen, including on setups with several displays.
+
+[Justification for clipboardWrite]
+"Copy URL" copies the address of the current tab. It can be triggered by a keyboard shortcut or from the command bar, where the page itself has not received a click, so the copy is only allowed with this permission. Arcish never reads the clipboard.
+
+[Justification for downloads]
+The Library section of the sidebar lists the user's recent downloads (file name, state and icon) and keeps the list up to date while a download is in progress. It also lets the user reveal a downloaded file in its folder.
+
+[Justification for downloads.open]
+Clicking a finished download in the Library opens that file. Chrome requires this separate permission for opening a downloaded file.
+
+[Justification for host permission]
+Arcish needs to work on whichever site the user is on, so the sites cannot be listed in advance:
+1. The command bar is drawn as an overlay on the current page, on any site.
+2. Boosts apply CSS the user wrote, and hide elements the user picked with Zap, on the sites the user set them up for.
+3. The media control pauses or resumes playback in whichever tab is playing audio.
+4. Live Folders fetch the feed address the user enters, which can be on any host, as well as the GitHub and Hacker News APIs.
+The content scripts add nothing to a page until one of these features is used, and they do not read or transmit page content.
+
+[Are you using remote code?]
+No, I am not using remote code.
+All JavaScript is included in the package. There is no eval and no script loaded from a server; network responses (JSON and feed XML for Live Folders) are treated as data only.
+
+[Data usage — which boxes to tick]
+Tick:
+  ☑ Web history
+      Tab titles and addresses are shown in the sidebar and saved on the device for pins, favorites and the archive; the command bar searches the browsing history.
+  ☑ Authentication information
+      Only if the user enters a GitHub token for Live Folders. It is stored on the device and sent only to api.github.com.
+Leave unticked:
+  ☐ Personally identifiable information
+  ☐ Health information
+  ☐ Financial and payment information
+  ☐ Personal communications
+  ☐ Location
+  ☐ User activity            (no clicks, keystrokes or scrolling are recorded)
+  ☐ Website content          (page content is not read; Live Folder entries come from sources the user set up)
+
+[Certifications — tick all three]
+  ☑ I do not sell or transfer user data to third parties, outside of the approved use cases
+  ☑ I do not use or transfer user data for purposes that are unrelated to my item's single purpose
+  ☑ I do not use or transfer user data to determine creditworthiness or for lending purposes
+
+[Privacy policy URL]
+https://github.com/KikuchiTomo/arcish/blob/main/PRIVACY.md
