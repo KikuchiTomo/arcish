@@ -59,6 +59,8 @@ npm run check      # 構文、import、翻訳キー、manifest の整合
 npm test           # サービス層と UI のテスト
 npm run smoke      # 使い捨ての Chrome に読み込んで動作確認
 npm run package    # 配布用の dist/arcish-<version>.zip を作る
+npm run store:images   # ストア掲載用のスクリーンショットとタイルを作る
+npm run store:film     # 紹介動画を作る（ffmpeg が必要）
 npm run icons      # アイコンを再生成
 ```
 
@@ -67,7 +69,7 @@ npm run icons      # アイコンを再生成
 1. `manifest.json` の `version` を上げてコミットする
 2. 同じ番号のタグを付けて push する（例: `git tag v0.1.0 && git push origin v0.1.0`）
 3. GitHub Actions がチェックとテストを通したうえで zip を作り、GitHub のリリースに添付する
-4. Chrome ウェブストアに出す場合は、その zip をデベロッパー ダッシュボードにアップロードする
+4. Chrome ウェブストアに出す場合は、その zip をデベロッパー ダッシュボードにアップロードする。掲載用の画像、掲載文、権限の用途は `store/` にまとめてある
 
 zip に入るのは `manifest.json`、`_locales/`、`icons/`、`src/` だけで、テストやスクリプトは含まれない。
 
