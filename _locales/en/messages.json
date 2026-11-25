@@ -177,7 +177,7 @@
     "message": "This version of Chrome has no split view"
   },
   "extDescription": {
-    "message": "Spaces, Favorites, pinned tabs, Live Folders, Little Window, Split View and a command bar — an assistant for Chrome, not a replacement."
+    "message": "Spaces, Favorites, pinned tabs, Live Folders, Little Window, Split View and a command bar. Assists Chrome instead of replacing it."
   },
   "extName": {
     "message": "Arcish — Arc-style sidebar"
