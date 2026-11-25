@@ -7,6 +7,8 @@
     "test": "node --test --test-force-exit \"tests/*.test.js\"",
     "smoke": "node scripts/smoke.mjs",
     "package": "node scripts/package.mjs",
+    "store:images": "node scripts/store-assets.mjs",
+    "store:film": "node scripts/store-film.mjs",
     "icons": "python3 scripts/gen_icons.py"
   },
   "devDependencies": {

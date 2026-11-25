@@ -1,0 +1,600 @@
+<!doctype html>
+<!-- The promo film as a function of time. Nothing here runs on its own clock:
+     the generator calls seek(t) for every frame, so the result is identical
+     on every run. All product imagery is captured from the real extension.
+     Layout is authored for 1920x1080. Flat colours only. -->
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <style>
+      * {
+        box-sizing: border-box;
+      }
+      html,
+      body {
+        margin: 0;
+        width: 1920px;
+        height: 1080px;
+        overflow: hidden;
+        background: #f5f3f8;
+      }
+      body {
+        font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Helvetica Neue', system-ui, sans-serif;
+        -webkit-font-smoothing: antialiased;
+        color: #1b1826;
+      }
+      img {
+        display: block;
+      }
+      #bg,
+      #grain,
+      #stage {
+        position: absolute;
+        inset: 0;
+      }
+      #grain {
+        opacity: 0.35;
+        mix-blend-mode: soft-light;
+        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220'%3E%3Cfilter id='n' x='0' y='0' width='100%25' height='100%25'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3CfeComponentTransfer%3E%3CfeFuncR type='linear' slope='2.4' intercept='-0.7'/%3E%3CfeFuncG type='linear' slope='2.4' intercept='-0.7'/%3E%3CfeFuncB type='linear' slope='2.4' intercept='-0.7'/%3E%3CfeFuncA type='discrete' tableValues='1 1'/%3E%3C/feComponentTransfer%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+      }
+
+      /* ---------- logo ---------- */
+      #logo {
+        position: absolute;
+        left: 960px;
+        top: 540px;
+        width: 0;
+        height: 0;
+      }
+      #tile {
+        position: absolute;
+        left: -110px;
+        top: -230px;
+        width: 220px;
+        height: 220px;
+        border-radius: 58px;
+        background: #17161b;
+      }
+      #tile i {
+        position: absolute;
+        top: 52px;
+        height: 116px;
+        border-radius: 16px;
+        background: #fff;
+      }
+      #bar-a {
+        left: 47px;
+        width: 42px;
+      }
+      #bar-b {
+        left: 102px;
+        width: 70px;
+      }
+      #wordmark {
+        position: absolute;
+        left: -400px;
+        top: 34px;
+        width: 800px;
+        text-align: center;
+        font-size: 132px;
+        font-weight: 700;
+        letter-spacing: -0.045em;
+        line-height: 1;
+        white-space: nowrap;
+      }
+      #wordmark span {
+        display: inline-block;
+      }
+      #tagline,
+      #link {
+        position: absolute;
+        left: -500px;
+        width: 1000px;
+        text-align: center;
+        color: #625d75;
+      }
+      #tagline {
+        top: 196px;
+        font-size: 40px;
+        letter-spacing: -0.01em;
+      }
+      #link {
+        top: 268px;
+        font-size: 28px;
+        font-weight: 600;
+        color: #1b1826;
+      }
+
+      /* ---------- captions ---------- */
+      .caption {
+        position: absolute;
+        left: 128px;
+        top: 372px;
+        width: 720px;
+      }
+      .caption .label {
+        font-size: 24px;
+        font-weight: 700;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+        margin-bottom: 26px;
+      }
+      .caption .title {
+        font-size: 92px;
+        font-weight: 700;
+        line-height: 1.04;
+        letter-spacing: -0.04em;
+      }
+      .caption .line {
+        display: block;
+        overflow: hidden;
+        padding-bottom: 0.12em; /* room for descenders inside the mask */
+      }
+      .caption .line span {
+        display: inline-block;
+      }
+      .caption .body {
+        margin-top: 28px;
+        font-size: 32px;
+        line-height: 1.42;
+        color: #625d75;
+        max-width: 620px;
+      }
+
+      /* ---------- the browser ---------- */
+      #camera {
+        position: absolute;
+        inset: 0;
+        transform-origin: 0 0;
+      }
+      #browser {
+        position: absolute;
+        left: 930px;
+        top: 96px;
+        width: 880px;
+        height: 888px;
+        border-radius: 22px;
+        background: #fff;
+        overflow: hidden;
+        box-shadow: 0 50px 120px rgba(34, 20, 80, 0.26), 0 0 0 1px rgba(34, 20, 80, 0.08);
+        transform-origin: 50% 60%;
+      }
+      #chrome-bar {
+        height: 54px;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        padding: 0 20px;
+        background: #ecebf0;
+      }
+      #chrome-bar i {
+        width: 14px;
+        height: 14px;
+        border-radius: 50%;
+        background: #cfccd8;
+      }
+      #chrome-bar .address {
+        flex: 1;
+        height: 30px;
+        margin-left: 16px;
+        border-radius: 15px;
+        background: #fff;
+      }
+      #panel {
+        position: absolute;
+        left: 0;
+        top: 54px;
+        width: 404px;
+        height: 834px;
+        overflow: hidden;
+      }
+      #panel img {
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 404px;
+      }
+      #page {
+        position: absolute;
+        left: 404px;
+        top: 54px;
+        right: 0;
+        bottom: 0;
+        padding: 64px 52px;
+        background: #fff;
+      }
+      #page b {
+        display: block;
+        height: 30px;
+        width: 60%;
+        border-radius: 8px;
+        background: #e4e1ec;
+        margin-bottom: 30px;
+      }
+      #page s {
+        display: block;
+        height: 14px;
+        border-radius: 7px;
+        background: #efedf4;
+        margin-bottom: 18px;
+        transform-origin: 0 50%;
+      }
+      #page s:nth-of-type(3n) {
+        width: 72%;
+      }
+      #page s:nth-of-type(4n) {
+        width: 88%;
+      }
+      #dim {
+        position: absolute;
+        left: 0;
+        right: 0;
+        top: 54px;
+        bottom: 0;
+        background: #14121c;
+        opacity: 0;
+      }
+      #palette {
+        position: absolute;
+        left: 40px;
+        top: 150px;
+        width: 800px;
+        height: 511px;
+        transform-origin: 50% 30%;
+      }
+      #palette img {
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 800px;
+      }
+      #settings {
+        position: absolute;
+        left: 1300px;
+        top: 360px;
+        width: 580px;
+        border-radius: 18px;
+        overflow: hidden;
+        box-shadow: 0 40px 100px rgba(34, 20, 80, 0.28), 0 0 0 1px rgba(34, 20, 80, 0.08);
+      }
+      #settings img {
+        width: 580px;
+      }
+
+      /* ---------- pointer ---------- */
+      #cursor {
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 34px;
+        height: 34px;
+        transform-origin: 4px 3px;
+      }
+      #ring {
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 80px;
+        height: 80px;
+        margin: -40px 0 0 -40px;
+        border-radius: 50%;
+        border: 3px solid #1b1826;
+        opacity: 0;
+      }
+      #fingers {
+        position: absolute;
+        left: 0;
+        top: 0;
+      }
+      #fingers i {
+        position: absolute;
+        width: 46px;
+        height: 46px;
+        margin: -23px;
+        border-radius: 50%;
+        background: #1b1826;
+        opacity: 0.22;
+      }
+      #fingers i + i {
+        left: 62px;
+        top: 14px;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="bg"></div>
+    <div id="stage">
+      <div id="camera">
+        <div id="browser">
+          <div id="chrome-bar"><i></i><i></i><i></i><span class="address"></span></div>
+          <div id="panel"></div>
+          <div id="page"></div>
+          <div id="dim"></div>
+          <div id="palette"></div>
+        </div>
+        <div id="settings"></div>
+        <div id="ring"></div>
+        <svg id="cursor" viewBox="0 0 24 24"><path d="M4 3l14.5 8.2-6.4 1.6-2.9 6.2Z" fill="#17161b" stroke="#fff" stroke-width="1.6" stroke-linejoin="round" /></svg>
+        <div id="fingers"><i></i><i></i></div>
+      </div>
+      <div id="captions"></div>
+      <div id="logo">
+        <div id="tile"><i id="bar-a"></i><i id="bar-b"></i></div>
+        <div id="wordmark"></div>
+        <div id="tagline"></div>
+        <div id="link"></div>
+      </div>
+    </div>
+    <div id="grain"></div>
+
+    <script>
+      // ------------------------------------------------------------ helpers
+      const $ = (id) => document.getElementById(id);
+      const clamp = (x, a = 0, b = 1) => Math.min(b, Math.max(a, x));
+      const mix = (a, b, k) => a + (b - a) * k;
+      // Progress of t through [from, to], optionally eased.
+      const span = (t, from, to, ease = (x) => x) => ease(clamp((t - from) / (to - from)));
+      const out = (x) => 1 - (1 - x) ** 3; // settle
+      const outQuint = (x) => 1 - (1 - x) ** 5; // settle, snappier
+      const inOut = (x) => (x < 0.5 ? 4 * x ** 3 : 1 - (-2 * x + 2) ** 3 / 2);
+      const back = (x) => 1 + 2.2 * (x - 1) ** 3 + 1.2 * (x - 1) ** 2; // slight overshoot
+      const hex = (c) => [1, 3, 5].map((i) => parseInt(c.slice(i, i + 2), 16));
+      const blend = (a, b, k) => `rgb(${hex(a).map((v, i) => Math.round(mix(v, hex(b)[i], k))).join(',')})`;
+
+      // ------------------------------------------------------------ script of the film
+      const PAPER = '#f5f3f8';
+      const TINT = { personal: '#dcd4fb', work: '#cfdffc', research: '#cdeedd', neutral: '#e6e3ee' };
+      const INK = { personal: '#5b3df5', work: '#1f5fe0', research: '#12855a', neutral: '#4a4560' };
+
+      // Scene boundaries, in seconds.
+      const T = { intro: 0, tabs: 2.9, spaces: 8.4, live: 13.2, command: 18.0, library: 22.6, outro: 26.0, end: 30.0 };
+
+      const CAPTIONS = [
+        { id: 'tabs', from: T.tabs + 0.5, to: T.spaces - 0.25, ink: INK.personal, label: 'Favorites · Pins', title: ['Every tab', 'has a place.'], body: 'Pins stay put when you close them.' },
+        { id: 'spaces', from: T.spaces + 0.2, to: T.live - 0.25, ink: INK.work, label: 'Spaces', title: ['One swipe', 'apart.'], body: 'A Space for each part of your day.' },
+        { id: 'live', from: T.live + 0.2, to: T.command - 0.25, ink: INK.work, label: 'Live Folders', title: ['Folders that', 'keep up.'], body: 'Pull requests and feeds refresh on their own.' },
+        { id: 'command', from: T.command + 0.2, to: T.library - 0.25, ink: INK.work, label: 'Command bar', title: ['One shortcut', 'to everything.'], body: 'Tabs, pins, history and actions.' },
+        { id: 'library', from: T.library + 0.2, to: T.outro - 0.2, ink: INK.personal, label: 'Library', title: ['Closed is', 'not gone.'], body: 'It assists Chrome. It never takes over.' },
+      ];
+
+      // Panel images shown one after another; `at` is when each takes over and
+      // `how` is the transition: wipe (top to bottom), fade, or slide (+1 from the right).
+      const PANELS = [
+        { name: 'panel-personal', at: T.tabs + 0.9, how: 'wipe', dur: 1.25 },
+        { name: 'panel-personal-pinned', at: T.tabs + 3.55, how: 'fade', dur: 0.14 },
+        { name: 'panel-work-closed', at: T.spaces + 1.0, how: 'slide', dir: 1, dur: 0.62 },
+        { name: 'panel-research', at: T.spaces + 2.35, how: 'slide', dir: 1, dur: 0.62 },
+        { name: 'panel-work-closed', at: T.spaces + 3.6, how: 'slide', dir: -1, dur: 0.62 },
+        { name: 'panel-work', at: T.live + 1.25, how: 'unfold', dur: 0.9 },
+        { name: 'panel-library', at: T.library + 0.35, how: 'slide', dir: -1, dur: 0.6 },
+      ];
+      // Where the "Pull Requests" folder row sits in the panel image (fraction of its height).
+      const FOLDER_ROW_Y = 0.655;
+
+      // Background colour over time.
+      const BG = [
+        [0, PAPER],
+        [T.tabs + 0.2, PAPER],
+        [T.tabs + 1.3, TINT.personal],
+        [T.spaces + 1.0, TINT.personal],
+        [T.spaces + 1.6, TINT.work],
+        [T.spaces + 2.35, TINT.work],
+        [T.spaces + 2.95, TINT.research],
+        [T.spaces + 3.6, TINT.research],
+        [T.spaces + 4.2, TINT.work],
+        [T.library + 0.3, TINT.work],
+        [T.library + 0.9, TINT.personal],
+        [T.outro, TINT.personal],
+        [T.outro + 0.8, PAPER],
+      ];
+
+      // Pointer path: [time, x, y] in stage pixels (linear between points, eased per leg).
+      const POINTER = [
+        [T.tabs + 2.3, 1500, 1010],
+        [T.tabs + 3.4, 1100, 432],
+        [T.spaces + 0.2, 1100, 432],
+        [T.spaces + 0.7, 1500, 1120],
+      ];
+      const CLICK_AT = T.tabs + 3.5;
+      const SWIPES = [T.spaces + 0.85, T.spaces + 2.2, T.spaces + 3.45]; // two-finger swipes; the last one goes back
+      const TYPING = [T.command + 1.25, T.command + 1.5, T.command + 1.75]; // one key each
+
+      // ------------------------------------------------------------ build the scene
+      let asset = (name) => name; // set by init()
+      const panel = $('panel');
+      const layers = PANELS.map((p) => {
+        const image = new Image();
+        panel.appendChild(image);
+        return image;
+      });
+      $('page').innerHTML = '<b></b>' + '<s></s>'.repeat(14);
+      const paletteFrames = [0, 1, 2, 3].map(() => $('palette').appendChild(new Image()));
+      const settingsImage = $('settings').appendChild(new Image());
+
+      $('wordmark').innerHTML = [...'Arcish'].map((ch) => `<span>${ch}</span>`).join('');
+      $('captions').innerHTML = CAPTIONS.map(
+        (c) => `<div class="caption" id="cap-${c.id}"><div class="label" style="color:${c.ink}">${c.label}</div>
+          <div class="title">${c.title.map((line) => `<span class="line"><span>${line}</span></span>`).join('')}</div><div class="body">${c.body}</div></div>`,
+      ).join('');
+
+      window.init = async ({ assetUrl, tagline, link }) => {
+        asset = assetUrl ? (name) => assetUrl.replace('{name}', name) : asset;
+        PANELS.forEach((p, i) => (layers[i].src = asset(p.name)));
+        paletteFrames.forEach((image, i) => (image.src = asset(`palette-${i}`)));
+        settingsImage.src = asset('settings');
+        $('tagline').textContent = tagline;
+        $('link').textContent = link;
+        await Promise.all([...document.images].map((image) => image.decode()));
+        seek(0);
+      };
+
+      // ------------------------------------------------------------ one frame
+      function background(t) {
+        let i = BG.findIndex(([at]) => at > t);
+        if (i === -1) return BG.at(-1)[1];
+        if (i === 0) return BG[0][1];
+        const [t0, c0] = BG[i - 1];
+        const [t1, c1] = BG[i];
+        return blend(c0, c1, inOut((t - t0) / (t1 - t0)));
+      }
+
+      function logo(t) {
+        // In at the start, away for the body of the film, back for the end card.
+        const intro = t < T.outro;
+        const local = intro ? t : t - T.outro - 0.5;
+        const appear = span(local, 0.15, 0.95, back);
+        const leave = intro ? span(t, T.tabs - 0.55, T.tabs + 0.05, inOut) : 0;
+        const shown = intro ? t < T.tabs + 0.1 : local > 0;
+        $('logo').style.opacity = shown ? 1 - leave : 0;
+        $('logo').style.transform = `translate(${-leave * 0}px, ${mix(0, -70, leave) + (intro ? 0 : -70)}px) scale(${mix(1, 0.92, leave)})`;
+        $('tile').style.transform = `scale(${mix(0.4, 1, appear)})`;
+        $('tile').style.opacity = span(local, 0.15, 0.4);
+        // The mark draws itself: the sidebar slides in, then the page.
+        $('bar-a').style.transform = `translateX(${mix(-70, 0, span(local, 0.45, 1.0, outQuint))}px)`;
+        $('bar-a').style.opacity = span(local, 0.45, 0.7);
+        $('bar-b').style.opacity = 0.42 * span(local, 0.75, 1.15);
+        $('bar-b').style.transform = `translateX(${mix(26, 0, span(local, 0.75, 1.25, outQuint))}px)`;
+        [...$('wordmark').children].forEach((ch, i) => {
+          const k = span(local, 0.85 + i * 0.055, 1.35 + i * 0.055, outQuint);
+          ch.style.transform = `translateY(${mix(70, 0, k)}px)`;
+          ch.style.opacity = k;
+        });
+        const tag = span(local, 1.45, 2.0, out);
+        $('tagline').style.opacity = tag;
+        $('tagline').style.transform = `translateY(${mix(18, 0, tag)}px)`;
+        const link = intro ? 0 : span(local, 1.9, 2.5, out);
+        $('link').style.opacity = link;
+        $('link').style.transform = `translateY(${mix(18, 0, link)}px)`;
+      }
+
+      function captions(t) {
+        for (const c of CAPTIONS) {
+          const el = $(`cap-${c.id}`);
+          const enter = t - c.from;
+          const exit = span(t, c.to - 0.35, c.to, inOut);
+          el.style.visibility = t >= c.from - 0.05 && t <= c.to + 0.05 ? 'visible' : 'hidden';
+          el.style.opacity = 1 - exit;
+          el.style.transform = `translateY(${mix(0, -24, exit)}px)`;
+          const label = span(enter, 0, 0.45, out);
+          el.querySelector('.label').style.opacity = label;
+          el.querySelector('.label').style.transform = `translateX(${mix(-18, 0, label)}px)`;
+          // Each line rises out of its own mask.
+          el.querySelectorAll('.line span').forEach((line, i) => {
+            line.style.transform = `translateY(${mix(112, 0, span(enter, 0.12 + i * 0.11, 0.82 + i * 0.11, outQuint))}%)`;
+          });
+          const body = span(enter, 0.55, 1.1, out);
+          el.querySelector('.body').style.opacity = body;
+          el.querySelector('.body').style.transform = `translateY(${mix(16, 0, body)}px)`;
+        }
+      }
+
+      function browser(t) {
+        const rise = span(t, T.tabs + 0.15, T.tabs + 1.25, outQuint);
+        const leave = span(t, T.outro - 0.1, T.outro + 0.7, inOut);
+        const el = $('browser');
+        el.style.opacity = t < T.tabs + 0.1 ? 0 : 1 - span(t, T.outro + 0.15, T.outro + 0.7);
+        el.style.transform = `translateY(${mix(260, 0, rise) + mix(0, 70, leave)}px) rotate(${mix(2.2, 0, rise)}deg) scale(${mix(0.94, 1, rise) * mix(1, 0.9, leave)})`;
+        // The page fills in as the window settles.
+        $('page')
+          .querySelectorAll('s')
+          .forEach((line, i) => {
+            line.style.transform = `scaleX(${span(t, T.tabs + 0.7 + i * 0.045, T.tabs + 1.3 + i * 0.045, outQuint)})`;
+          });
+      }
+
+      function panels(t) {
+        PANELS.forEach((p, i) => {
+          const image = layers[i];
+          const k = clamp((t - p.at) / p.dur);
+          const next = PANELS[i + 1];
+          const covered = next && t >= next.at + next.dur; // a later image fully took over (it is opaque by then)
+          image.style.visibility = t >= p.at && !covered ? 'visible' : 'hidden';
+          image.style.clipPath = 'none';
+          image.style.opacity = 1;
+          image.style.transform = 'none';
+          if (p.how === 'wipe') image.style.clipPath = `inset(0 0 ${(1 - outQuint(k)) * 100}% 0)`;
+          if (p.how === 'fade') image.style.opacity = k;
+          if (p.how === 'slide') image.style.transform = `translateX(${p.dir * (1 - outQuint(k)) * 100}%)`;
+          // The image underneath leaves in the same direction.
+          if (next?.how === 'slide' && t >= next.at) image.style.transform = `translateX(${-next.dir * outQuint(clamp((t - next.at) / next.dur)) * 100}%)`;
+          // A folder opening: the new image is uncovered from its row downwards
+          // (above the row both images are the same).
+          if (p.how === 'unfold') image.style.clipPath = `inset(0 0 ${(1 - FOLDER_ROW_Y) * (1 - out(k)) * 100}% 0)`;
+        });
+      }
+
+      function camera(t) {
+        // Push in on the live folder, then pull back for the command bar.
+        const zoomIn = span(t, T.live + 0.3, T.live + 1.3, inOut);
+        const zoomOut = span(t, T.command - 0.55, T.command + 0.35, inOut);
+        const k = zoomIn - zoomOut;
+        const scale = mix(1, 1.42, k);
+        const focus = { x: 1132, y: 640 }; // a point in the sidebar that keeps the opened folder in frame
+        const x = mix(0, 1260 - focus.x * scale, k);
+        const y = mix(0, 560 - focus.y * scale, k);
+        $('camera').style.transform = `translate(${x}px, ${y}px) scale(${scale})`;
+      }
+
+      function commandBar(t) {
+        const open = span(t, T.command + 0.55, T.command + 0.95, back);
+        const close = span(t, T.library - 0.5, T.library - 0.1, inOut);
+        const shown = open * (1 - close);
+        $('dim').style.opacity = 0.2 * span(t, T.command + 0.45, T.command + 0.9) * (1 - close);
+        $('palette').style.opacity = clamp(span(t, T.command + 0.55, T.command + 0.75)) * (1 - close);
+        $('palette').style.transform = `translateY(${mix(-18, 0, open) + mix(0, -12, close)}px) scale(${mix(0.94, 1, open)})`;
+        const typed = TYPING.filter((at) => t >= at).length;
+        paletteFrames.forEach((image, i) => (image.style.visibility = shown > 0 && i === typed ? 'visible' : 'hidden'));
+      }
+
+      function settings(t) {
+        const enter = span(t, T.library + 1.4, T.library + 2.2, outQuint);
+        const leave = span(t, T.outro - 0.15, T.outro + 0.45, inOut);
+        const el = $('settings');
+        el.style.opacity = span(t, T.library + 1.4, T.library + 1.7) * (1 - leave);
+        el.style.transform = `translate(${mix(120, 0, enter)}px, ${mix(60, 0, enter) + mix(0, 50, leave)}px) rotate(${mix(4, 0, enter)}deg) scale(${mix(0.9, 1, enter)})`;
+      }
+
+      function pointer(t) {
+        const cursor = $('cursor');
+        const visible = t >= POINTER[0][0] && t <= POINTER.at(-1)[0];
+        cursor.style.opacity = visible ? 1 : 0;
+        let i = POINTER.findIndex(([at]) => at > t);
+        if (i <= 0) i = i === 0 ? 1 : POINTER.length - 1;
+        const [t0, x0, y0] = POINTER[i - 1];
+        const [t1, x1, y1] = POINTER[i];
+        const k = span(t, t0, t1, inOut);
+        const press = 1 - 0.14 * span(t, CLICK_AT - 0.08, CLICK_AT) * (1 - span(t, CLICK_AT, CLICK_AT + 0.16));
+        cursor.style.transform = `translate(${mix(x0, x1, k)}px, ${mix(y0, y1, k)}px) scale(${press})`;
+        const ring = span(t, CLICK_AT, CLICK_AT + 0.55, out);
+        $('ring').style.opacity = t >= CLICK_AT ? 0.5 * (1 - ring) : 0;
+        $('ring').style.transform = `translate(${x1}px, ${y1}px) scale(${mix(0.2, 1, ring)})`;
+
+        // Two fingertips drawing each swipe across the sidebar.
+        const fingers = $('fingers');
+        let alpha = 0;
+        SWIPES.forEach((at, n) => {
+          const k2 = span(t, at, at + 0.7, inOut);
+          if (t < at - 0.1 || t > at + 0.85) return;
+          alpha = span(t, at - 0.1, at + 0.1) * (1 - span(t, at + 0.6, at + 0.85));
+          const dir = n === SWIPES.length - 1 ? 1 : -1;
+          fingers.style.transform = `translate(${1132 + dir * mix(-90, 90, k2)}px, ${820 - Math.sin(k2 * Math.PI) * 10}px)`;
+        });
+        fingers.style.opacity = alpha;
+      }
+
+      window.DURATION = T.end;
+      window.CUES = { T, CLICK_AT, SWIPES, TYPING, PANELS: PANELS.map(({ at, how }) => ({ at, how })) };
+      window.seek = (t) => {
+        $('bg').style.background = background(t);
+        logo(t);
+        captions(t);
+        browser(t);
+        panels(t);
+        camera(t);
+        commandBar(t);
+        settings(t);
+        pointer(t);
+      };
+    </script>
+  </body>
+</html>

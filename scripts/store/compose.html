@@ -1,0 +1,254 @@
+<!doctype html>
+<!-- Lays out one store image from captured UI. The generator sets
+     window.__layout = { kind, lang, label, title, body, tint, ink, images… }
+     and calls render(). Flat colours only; no gradients. -->
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <style>
+      :root {
+        --paper: #f5f3f8;
+        --ink: #1b1826;
+        --dim: #625d75;
+        --tint: #d8d0fb;
+        --accent: #5b3df5;
+      }
+      * {
+        box-sizing: border-box;
+      }
+      html,
+      body {
+        margin: 0;
+        width: 100%;
+        height: 100%;
+        overflow: hidden;
+      }
+      body {
+        background: var(--paper);
+        color: var(--ink);
+        font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Hiragino Sans', 'Noto Sans JP', system-ui, sans-serif;
+        -webkit-font-smoothing: antialiased;
+      }
+      #stage {
+        width: 100%;
+        height: 100%;
+      }
+      img {
+        display: block;
+      }
+
+      /* ---------- screenshot: copy on the left, product on a flat colour field ---------- */
+      .shot {
+        position: relative;
+        width: 100%;
+        height: 100%;
+      }
+      .field {
+        position: absolute;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        width: 58%;
+        background: var(--tint);
+      }
+      .copy {
+        position: absolute;
+        left: 76px;
+        top: 50%;
+        width: 400px;
+        transform: translateY(-54%);
+      }
+      .label {
+        font-size: 15px;
+        font-weight: 700;
+        letter-spacing: 0.09em;
+        text-transform: uppercase;
+        color: var(--accent);
+        margin-bottom: 18px;
+      }
+      h1 {
+        margin: 0 0 18px;
+        font-size: 52px;
+        line-height: 1.1;
+        letter-spacing: -0.03em;
+        font-weight: 700;
+      }
+      h1 {
+        white-space: pre-line; /* copy may carry its own line breaks */
+      }
+      :lang(ja) h1 {
+        font-size: 36px;
+        line-height: 1.3;
+        letter-spacing: 0;
+      }
+      :lang(ja) .copy {
+        width: 440px;
+      }
+      .body {
+        font-size: 21px;
+        line-height: 1.5;
+        color: var(--dim);
+      }
+      :lang(ja) .body {
+        font-size: 19px;
+        line-height: 1.7;
+      }
+
+      /* ---------- the browser the product sits in ---------- */
+      .browser {
+        position: absolute;
+        border-radius: 14px;
+        background: #fff;
+        overflow: hidden;
+        box-shadow: 0 34px 80px rgba(34, 20, 80, 0.22), 0 0 0 1px rgba(34, 20, 80, 0.08);
+      }
+      .chrome-bar {
+        height: 42px;
+        display: flex;
+        align-items: center;
+        gap: 7px;
+        padding: 0 14px;
+        background: #ecebf0;
+      }
+      .chrome-bar i {
+        width: 11px;
+        height: 11px;
+        border-radius: 50%;
+        background: #cfccd8;
+      }
+      .chrome-bar .address {
+        flex: 1;
+        height: 24px;
+        margin-left: 12px;
+        border-radius: 12px;
+        background: #fff;
+      }
+      .browser .content {
+        position: relative;
+        display: flex;
+      }
+      .page {
+        flex: 1;
+        padding: 46px 40px;
+        background: #fff;
+      }
+      .page b {
+        display: block;
+        height: 22px;
+        width: 62%;
+        border-radius: 6px;
+        background: #e4e1ec;
+        margin-bottom: 22px;
+      }
+      .page s {
+        display: block;
+        height: 11px;
+        border-radius: 6px;
+        background: #efedf4;
+        margin-bottom: 13px;
+      }
+      .page s:nth-of-type(3n) {
+        width: 72%;
+      }
+      .page s:nth-of-type(4n) {
+        width: 88%;
+      }
+      .overlay {
+        position: absolute;
+        left: 0;
+        top: 0;
+      }
+      .dim {
+        position: absolute;
+        inset: 0;
+        background: rgba(20, 18, 28, 0.2);
+      }
+
+      /* ---------- promo tiles ---------- */
+      .tile {
+        width: 100%;
+        height: 100%;
+        background: #17161b;
+        color: #fff;
+        display: flex;
+        align-items: center;
+      }
+      .tile.small {
+        flex-direction: column;
+        justify-content: center;
+        gap: 18px;
+        text-align: center;
+      }
+      .tile.small img {
+        width: 84px;
+        height: 84px;
+      }
+      .tile .name {
+        font-size: 40px;
+        font-weight: 700;
+        letter-spacing: -0.03em;
+        line-height: 1;
+      }
+      .tile .tagline {
+        font-size: 17px;
+        color: rgba(255, 255, 255, 0.64);
+        margin-top: 10px;
+      }
+      .tile.marquee {
+        padding-left: 110px;
+        gap: 34px;
+      }
+      .tile.marquee .mark {
+        width: 120px;
+        height: 120px;
+      }
+      .tile.marquee .name {
+        font-size: 84px;
+      }
+      .tile.marquee .tagline {
+        font-size: 30px;
+        margin-top: 16px;
+      }
+      .tile.marquee .panel {
+        position: absolute;
+        right: 120px;
+        top: 70px;
+        border-radius: 16px;
+        overflow: hidden;
+        box-shadow: 0 30px 80px rgba(0, 0, 0, 0.5);
+      }
+    </style>
+  </head>
+  <body>
+    <div id="stage"></div>
+    <script>
+      const page = '<div class="page"><b></b>' + '<s></s>'.repeat(11) + '</div>';
+      const bar = '<div class="chrome-bar"><i></i><i></i><i></i><span class="address"></span></div>';
+      const copy = (c) => `<div class="copy"><div class="label">${c.label}</div><h1>${c.title}</h1><div class="body">${c.body}</div></div>`;
+      const img = (src, width, cls = '') => `<img class="${cls}" src="${src}" width="${width}">`;
+
+      const LAYOUTS = {
+        // The sidebar next to a page, in a browser window.
+        panel: (c) => `<div class="shot"><div class="field"></div>${copy(c)}
+          <div class="browser" style="left:560px;top:58px;width:650px">${bar}<div class="content">${img(c.image, 320)}${page}</div></div></div>`,
+        // The command bar floating over a page.
+        overlay: (c) => `<div class="shot"><div class="field"></div>${copy(c)}
+          <div class="browser" style="left:520px;top:150px;width:720px">${bar}<div class="content" style="height:460px">${page}<div class="dim"></div>${img(c.image, 720, 'overlay')}</div></div></div>`,
+        // A full extension page (settings).
+        page: (c) => `<div class="shot"><div class="field"></div>${copy(c)}
+          <div class="browser" style="left:505px;top:132px;width:735px">${bar}${img(c.image, 735)}</div></div>`,
+        small: (c) => `<div class="tile small">${img(c.icon, 84)}<div><div class="name">Arcish</div><div class="tagline">${c.tagline}</div></div></div>`,
+        marquee: (c) => `<div class="tile marquee">${img(c.icon, 120, 'mark')}<div><div class="name">Arcish</div><div class="tagline">${c.tagline}</div></div>
+          <div class="panel">${img(c.image, 300)}</div></div>`,
+      };
+
+      window.render = async () => {
+        const c = window.__layout;
+        document.documentElement.lang = c.lang;
+        for (const [name, value] of Object.entries({ '--tint': c.tint, '--accent': c.ink })) if (value) document.documentElement.style.setProperty(name, value);
+        document.getElementById('stage').innerHTML = LAYOUTS[c.kind](c);
+        await Promise.all([...document.images].map((image) => image.decode().catch(() => {})));
+      };
+    </script>
+  </body>
+</html>
