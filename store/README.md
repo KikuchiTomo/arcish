@@ -33,7 +33,7 @@ npm run icons          # 拡張機能のアイコンとストアアイコン
 ### 概要（132 文字以内。`_locales` の `extDescription` と同じ）
 
 - 英語: Spaces, Favorites, pinned tabs, Live Folders, Little Window, Split View and a command bar. Assists Chrome instead of replacing it.
-- 日本語: Space・Favorites・ピン留め・Live Folder・Little Window・スプリットビュー・コマンドバー。Chrome を置き換えずに補助します。
+- 日本語: Chrome のタブ体験を大幅アップデート！
 
 ### 詳細な説明（英語）
 
