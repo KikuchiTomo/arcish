@@ -1,0 +1,177 @@
+/* The parts of Chrome that surround the extension. Sizes are in units of
+   --u so the same frame serves the still images and the film. */
+.cf {
+  --u: 1;
+  --cf-frame: #e1e3e9;
+  --cf-bar: #fff;
+  --cf-field: #eef0f4;
+  --cf-line: #e3e5ea;
+  --cf-icon: #5c5f66;
+  --cf-text: #1f2125;
+  color: var(--cf-text);
+  font-size: calc(var(--u) * 12px);
+  line-height: 1;
+}
+.cf svg {
+  flex: none;
+  width: calc(var(--u) * 16px);
+  height: calc(var(--u) * 16px);
+  fill: none;
+  stroke: var(--cf-icon);
+  stroke-width: 1.5;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+.cf svg.cf-solid {
+  fill: var(--cf-icon);
+  stroke: none;
+}
+
+/* ---------- tab strip ---------- */
+.cf-strip {
+  display: flex;
+  align-items: flex-end;
+  height: calc(var(--u) * 38px);
+  padding: 0 calc(var(--u) * 10px) 0 calc(var(--u) * 14px);
+  background: var(--cf-frame);
+}
+.cf-lights {
+  display: flex;
+  align-self: center;
+  gap: calc(var(--u) * 7px);
+  margin-right: calc(var(--u) * 14px);
+}
+.cf-lights i {
+  width: calc(var(--u) * 11px);
+  height: calc(var(--u) * 11px);
+  border-radius: 50%;
+  background: #c6c9d1;
+}
+.cf-tabs {
+  display: flex;
+  flex: 1;
+  min-width: 0;
+  height: calc(var(--u) * 31px);
+}
+.cf-tab {
+  position: relative;
+  display: flex;
+  flex: 1 1 0;
+  align-items: center;
+  gap: calc(var(--u) * 7px);
+  min-width: 0;
+  max-width: calc(var(--u) * 170px);
+  padding: 0 calc(var(--u) * 8px);
+  border-radius: calc(var(--u) * 9px) calc(var(--u) * 9px) 0 0;
+  white-space: nowrap;
+  overflow: hidden;
+}
+.cf-tab img,
+.cf-tab .cf-blank {
+  flex: none;
+  width: calc(var(--u) * 14px);
+  height: calc(var(--u) * 14px);
+  border-radius: calc(var(--u) * 3.5px);
+}
+.cf-tab .cf-blank {
+  background: #c6c9d1;
+}
+/* Like Chrome, a title that does not fit fades out instead of being cut. */
+.cf-tab .cf-title {
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+  -webkit-mask-image: linear-gradient(to right, #000 calc(100% - var(--u) * 14px), transparent);
+}
+.cf-tab.cf-pinned {
+  flex: 0 0 calc(var(--u) * 30px);
+  justify-content: center;
+}
+.cf-tab.cf-active {
+  flex: 0 0 calc(var(--u) * 108px);
+  background: var(--cf-bar);
+}
+.cf-tab.cf-pinned.cf-active {
+  flex: 0 0 calc(var(--u) * 30px);
+}
+/* A hairline between tabs that are not selected. */
+.cf-tab:not(.cf-active) + .cf-tab:not(.cf-active)::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 28%;
+  height: 44%;
+  border-left: 1px solid #b4b8c2;
+}
+.cf-strip-tools {
+  display: flex;
+  align-self: center;
+  align-items: center;
+  gap: calc(var(--u) * 12px);
+  margin-left: calc(var(--u) * 8px);
+}
+.cf-strip-tools .cf-grow {
+  flex: 1;
+}
+
+/* ---------- toolbar ---------- */
+.cf-toolbar {
+  display: flex;
+  align-items: center;
+  gap: calc(var(--u) * 12px);
+  height: calc(var(--u) * 38px);
+  padding: 0 calc(var(--u) * 12px);
+  background: var(--cf-bar);
+  border-bottom: 1px solid var(--cf-line);
+}
+.cf-omnibox {
+  display: flex;
+  flex: 1;
+  align-items: center;
+  gap: calc(var(--u) * 8px);
+  min-width: 0;
+  height: calc(var(--u) * 27px);
+  padding: 0 calc(var(--u) * 10px);
+  border-radius: calc(var(--u) * 14px);
+  background: var(--cf-field);
+  font-size: calc(var(--u) * 12.5px);
+  white-space: nowrap;
+}
+.cf-omnibox .cf-url {
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.cf-omnibox .cf-rest {
+  color: #6f737b;
+}
+.cf-ext,
+.cf-avatar {
+  flex: none;
+  width: calc(var(--u) * 18px);
+  height: calc(var(--u) * 18px);
+}
+.cf-avatar {
+  border-radius: 50%;
+  background: #c6c9d1;
+}
+
+/* ---------- side panel header ---------- */
+.cf-panel-head {
+  display: flex;
+  align-items: center;
+  gap: calc(var(--u) * 9px);
+  height: calc(var(--u) * 40px);
+  padding: 0 calc(var(--u) * 12px);
+  background: var(--cf-bar);
+  font-size: calc(var(--u) * 13px);
+  font-weight: 600;
+}
+.cf-panel-head img {
+  width: calc(var(--u) * 16px);
+  height: calc(var(--u) * 16px);
+}
+.cf-panel-head span {
+  flex: 1;
+}

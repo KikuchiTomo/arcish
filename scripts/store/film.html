@@ -6,6 +6,8 @@
 <html lang="en">
   <head>
     <meta charset="utf-8" />
+    <link rel="stylesheet" href="chrome-frame.css" />
+    <script src="chrome-frame.js"></script>
     <style>
       * {
         box-sizing: border-box;
@@ -112,26 +114,65 @@
         top: 372px;
         width: 720px;
       }
+      /* Label row: scene number, a rule that draws in, then the feature's name. */
       .caption .label {
-        font-size: 24px;
+        display: flex;
+        align-items: center;
+        gap: 18px;
+        margin-bottom: 30px;
+        font-size: 22px;
         font-weight: 700;
-        letter-spacing: 0.1em;
+        white-space: nowrap;
+      }
+      .caption .index {
+        overflow: hidden;
+        font-variant-numeric: tabular-nums;
+        letter-spacing: 0.04em;
+      }
+      .caption .index span {
+        display: inline-block;
+      }
+      .caption .rule {
+        width: 52px;
+        height: 2px;
+        border-radius: 1px;
+        background: currentColor;
+        transform-origin: left center;
+      }
+      .caption .name {
         text-transform: uppercase;
-        margin-bottom: 26px;
       }
       .caption .title {
         font-size: 92px;
         font-weight: 700;
-        line-height: 1.04;
-        letter-spacing: -0.04em;
+        line-height: 1.1;
+        letter-spacing: -0.038em;
       }
       .caption .line {
         display: block;
-        overflow: hidden;
-        padding-bottom: 0.12em; /* room for descenders inside the mask */
+        white-space: nowrap;
       }
-      .caption .line span {
+      /* Every word is its own mask; the padding keeps descenders and the slant
+         of the italic inside it without changing the spacing. */
+      .caption .word {
         display: inline-block;
+        overflow: hidden;
+        vertical-align: bottom;
+        line-height: 1;
+        padding: 0.06em 0.09em 0.2em;
+        margin: -0.06em -0.09em -0.2em;
+      }
+      .caption .word span {
+        display: inline-block;
+        transform-origin: left bottom;
+      }
+      /* The phrase the headline turns on: italic serif in the scene's colour. */
+      .caption .accent {
+        font-family: 'Iowan Old Style', Baskerville, Georgia, serif;
+        font-style: italic;
+        font-weight: 400;
+        font-size: 1.06em;
+        letter-spacing: -0.03em;
       }
       .caption .body {
         margin-top: 28px;
@@ -147,59 +188,51 @@
         inset: 0;
         transform-origin: 0 0;
       }
+      /* Position and size come from the geometry in the script. */
       #browser {
         position: absolute;
-        left: 930px;
-        top: 96px;
-        width: 880px;
-        height: 888px;
+        display: flex;
+        flex-direction: column;
         border-radius: 22px;
         background: #fff;
         overflow: hidden;
         box-shadow: 0 50px 120px rgba(34, 20, 80, 0.26), 0 0 0 1px rgba(34, 20, 80, 0.08);
         transform-origin: 50% 60%;
       }
-      #chrome-bar {
-        height: 54px;
+      /* Chrome's tab strip and toolbar: one layer per state of the window. */
+      #bars {
+        position: relative;
+        flex: none;
+      }
+      #bars > div {
+        position: absolute;
+        inset: 0;
+      }
+      #content {
+        position: relative;
         display: flex;
-        align-items: center;
-        gap: 10px;
-        padding: 0 20px;
-        background: #ecebf0;
-      }
-      #chrome-bar i {
-        width: 14px;
-        height: 14px;
-        border-radius: 50%;
-        background: #cfccd8;
-      }
-      #chrome-bar .address {
         flex: 1;
-        height: 30px;
-        margin-left: 16px;
-        border-radius: 15px;
-        background: #fff;
+        min-height: 0;
+      }
+      /* The side panel; it narrows to nothing when the sidebar is closed. */
+      #side {
+        flex: none;
+        overflow: hidden;
+        border-right: 1px solid var(--cf-line);
       }
       #panel {
-        position: absolute;
-        left: 0;
-        top: 54px;
-        width: 404px;
-        height: 834px;
+        position: relative;
         overflow: hidden;
       }
       #panel img {
         position: absolute;
         left: 0;
         top: 0;
-        width: 404px;
+        width: 100%;
       }
       #page {
-        position: absolute;
-        left: 404px;
-        top: 54px;
-        right: 0;
-        bottom: 0;
+        flex: 1;
+        min-width: 0;
         padding: 64px 52px;
         background: #fff;
       }
@@ -227,17 +260,14 @@
       }
       #dim {
         position: absolute;
-        left: 0;
-        right: 0;
-        top: 54px;
-        bottom: 0;
+        inset: 0;
         background: #14121c;
         opacity: 0;
       }
       #palette {
         position: absolute;
         left: 40px;
-        top: 150px;
+        top: 84px;
         width: 800px;
         height: 511px;
         transform-origin: 50% 30%;
@@ -305,12 +335,17 @@
     <div id="bg"></div>
     <div id="stage">
       <div id="camera">
-        <div id="browser">
-          <div id="chrome-bar"><i></i><i></i><i></i><span class="address"></span></div>
-          <div id="panel"></div>
-          <div id="page"></div>
-          <div id="dim"></div>
-          <div id="palette"></div>
+        <div id="browser" class="cf">
+          <div id="bars"></div>
+          <div id="content">
+            <div id="side">
+              <div id="panel-head"></div>
+              <div id="panel"></div>
+            </div>
+            <div id="page"></div>
+            <div id="dim"></div>
+            <div id="palette"></div>
+          </div>
         </div>
         <div id="settings"></div>
         <div id="ring"></div>
@@ -336,6 +371,7 @@
       const span = (t, from, to, ease = (x) => x) => ease(clamp((t - from) / (to - from)));
       const out = (x) => 1 - (1 - x) ** 3; // settle
       const outQuint = (x) => 1 - (1 - x) ** 5; // settle, snappier
+      const into = (x) => x ** 3; // leave, gathering speed
       const inOut = (x) => (x < 0.5 ? 4 * x ** 3 : 1 - (-2 * x + 2) ** 3 / 2);
       const back = (x) => 1 + 2.2 * (x - 1) ** 3 + 1.2 * (x - 1) ** 2; // slight overshoot
       const hex = (c) => [1, 3, 5].map((i) => parseInt(c.slice(i, i + 2), 16));
@@ -346,15 +382,29 @@
       const TINT = { personal: '#dcd4fb', work: '#cfdffc', research: '#cdeedd', neutral: '#e6e3ee' };
       const INK = { personal: '#5b3df5', work: '#1f5fe0', research: '#12855a', neutral: '#4a4560' };
 
+      // ------------------------------------------------------------ geometry
+      const STAGE = { width: 1920, height: 1080 };
+      const UNIT = 1.1; // the browser window is drawn at this multiple of its real size
+      const SIDEBAR = { width: 320 * UNIT, height: 660 * UNIT }; // the captured sidebar, as drawn
+      const ABOVE_SIDEBAR = (chromeFrame.UNITS.bars + chromeFrame.UNITS.panelHead) * UNIT; // Chrome's bars and the side panel's header
+      const WINDOW = { left: 930, width: 880, height: Math.round(ABOVE_SIDEBAR + SIDEBAR.height) };
+      WINDOW.top = Math.round((STAGE.height - WINDOW.height) / 2);
+      // A point in the sidebar (fractions of its width and height) in stage pixels.
+      const inSidebar = (fx, fy) => ({ x: WINDOW.left + fx * SIDEBAR.width, y: WINDOW.top + ABOVE_SIDEBAR + fy * SIDEBAR.height });
+      const PINNED_ROW = inSidebar(0.42, 0.338); // the pinned item that gets clicked
+      const SWIPE_AT = inSidebar(0.5, 0.8); // where the fingertips cross the sidebar
+      const CAMERA = { focus: inSidebar(0.5, 0.59), lands: { x: 1260, y: 560 }, scale: 1.6 }; // the push-in on the live folder
+
       // Scene boundaries, in seconds.
       const T = { intro: 0, tabs: 2.9, spaces: 8.4, live: 13.2, command: 18.0, library: 22.6, outro: 26.0, end: 30.0 };
 
+      // In a title, *…* marks the phrase set in the accent style.
       const CAPTIONS = [
-        { id: 'tabs', from: T.tabs + 0.5, to: T.spaces - 0.25, ink: INK.personal, label: 'Favorites · Pins', title: ['Every tab', 'has a place.'], body: 'Pins stay put when you close them.' },
-        { id: 'spaces', from: T.spaces + 0.2, to: T.live - 0.25, ink: INK.work, label: 'Spaces', title: ['One swipe', 'apart.'], body: 'A Space for each part of your day.' },
-        { id: 'live', from: T.live + 0.2, to: T.command - 0.25, ink: INK.work, label: 'Live Folders', title: ['Folders that', 'keep up.'], body: 'Pull requests and feeds refresh on their own.' },
-        { id: 'command', from: T.command + 0.2, to: T.library - 0.25, ink: INK.work, label: 'Command bar', title: ['One shortcut', 'to everything.'], body: 'Tabs, pins, history and actions.' },
-        { id: 'library', from: T.library + 0.2, to: T.outro - 0.2, ink: INK.personal, label: 'Library', title: ['Closed is', 'not gone.'], body: 'It assists Chrome. It never takes over.' },
+        { id: 'tabs', from: T.tabs + 0.5, to: T.spaces - 0.25, ink: INK.personal, label: 'Favorites · Pins', title: ['Every tab', 'has a *place.*'], body: 'Pins stay put when you close them.' },
+        { id: 'spaces', from: T.spaces + 0.2, to: T.live - 0.25, ink: INK.work, label: 'Spaces', title: ['One *swipe*', 'apart.'], body: 'A Space for each part of your day.' },
+        { id: 'live', from: T.live + 0.2, to: T.command - 0.25, ink: INK.work, label: 'Live Folders', title: ['Folders that', '*keep up.*'], body: 'Pull requests and feeds refresh on their own.' },
+        { id: 'command', from: T.command + 0.2, to: T.library - 0.25, ink: INK.work, label: 'Command bar', title: ['One shortcut', 'to *everything.*'], body: 'Tabs, pins, history and actions.' },
+        { id: 'library', from: T.library + 0.2, to: T.outro - 0.2, ink: INK.personal, label: 'Library', title: ['Closed is', '*not gone.*'], body: 'It assists Chrome. It never takes over.' },
       ];
 
       // Panel images shown one after another; `at` is when each takes over and
@@ -366,7 +416,7 @@
         { name: 'panel-research', at: T.spaces + 2.35, how: 'slide', dir: 1, dur: 0.62 },
         { name: 'panel-work-closed', at: T.spaces + 3.6, how: 'slide', dir: -1, dur: 0.62 },
         { name: 'panel-work', at: T.live + 1.25, how: 'unfold', dur: 0.9 },
-        { name: 'panel-library', at: T.library + 0.35, how: 'slide', dir: -1, dur: 0.6 },
+        { name: 'panel-library', at: T.library + 0.5, how: 'slide', dir: -1, dur: 0.6 },
       ];
       // Where the "Pull Requests" folder row sits in the panel image (fraction of its height).
       const FOLDER_ROW_Y = 0.655;
@@ -391,16 +441,24 @@
       // Pointer path: [time, x, y] in stage pixels (linear between points, eased per leg).
       const POINTER = [
         [T.tabs + 2.3, 1500, 1010],
-        [T.tabs + 3.4, 1100, 432],
-        [T.spaces + 0.2, 1100, 432],
+        [T.tabs + 3.4, PINNED_ROW.x, PINNED_ROW.y],
+        [T.spaces + 0.2, PINNED_ROW.x, PINNED_ROW.y],
         [T.spaces + 0.7, 1500, 1120],
       ];
       const CLICK_AT = T.tabs + 3.5;
       const SWIPES = [T.spaces + 0.85, T.spaces + 2.2, T.spaces + 3.45]; // two-finger swipes; the last one goes back
+      // The sidebar is closed while the command bar is used on the page, then opened again.
+      const SIDEBAR_SHUT = { from: T.command + 0.05, to: T.library + 0.35, dur: 0.45 };
       const TYPING = [T.command + 1.25, T.command + 1.5, T.command + 1.75]; // one key each
 
       // ------------------------------------------------------------ build the scene
       let asset = (name) => name; // set by init()
+      for (const [el, box] of [[$('browser'), WINDOW], [$('panel'), SIDEBAR]]) {
+        for (const [key, value] of Object.entries(box)) el.style[key] = `${value}px`;
+      }
+      $('browser').style.setProperty('--u', UNIT);
+      $('bars').style.height = `${chromeFrame.UNITS.bars * UNIT}px`;
+      let bars = []; // one layer per entry of PANELS, filled by init()
       const panel = $('panel');
       const layers = PANELS.map((p) => {
         const image = new Image();
@@ -412,13 +470,33 @@
       const settingsImage = $('settings').appendChild(new Image());
 
       $('wordmark').innerHTML = [...'Arcish'].map((ch) => `<span>${ch}</span>`).join('');
+      const titleLine = (line, ink) =>
+        line
+          .split(/(\*[^*]+\*)/)
+          .flatMap((part) => {
+            const accent = part.startsWith('*');
+            const words = (accent ? part.slice(1, -1) : part).split(' ').filter(Boolean);
+            return words.map((word) => `<span class="word${accent ? ' accent' : ''}"${accent ? ` style="color:${ink}"` : ''}><span>${word}</span></span>`);
+          })
+          .join(' ');
       $('captions').innerHTML = CAPTIONS.map(
-        (c) => `<div class="caption" id="cap-${c.id}"><div class="label" style="color:${c.ink}">${c.label}</div>
-          <div class="title">${c.title.map((line) => `<span class="line"><span>${line}</span></span>`).join('')}</div><div class="body">${c.body}</div></div>`,
+        (c, i) => `<div class="caption" id="cap-${c.id}">
+          <div class="label" style="color:${c.ink}"><span class="index"><span>${String(i + 1).padStart(2, '0')}</span></span><span class="rule"></span><span class="name">${c.label}</span></div>
+          <div class="title">${c.title.map((line) => `<span class="line">${titleLine(line, c.ink)}</span>`).join('')}</div><div class="body">${c.body}</div></div>`,
       ).join('');
+      for (const c of CAPTIONS) {
+        const el = $(`cap-${c.id}`);
+        const one = (selector) => el.querySelector(selector);
+        c.parts = { el, index: one('.index span'), rule: one('.rule'), name: one('.name'), words: [...el.querySelectorAll('.word span')], body: one('.body') };
+      }
 
-      window.init = async ({ assetUrl, tagline, link }) => {
+      // strips: { capture name: the window's tabs at that moment }, extension: { name, icon }
+      window.init = async ({ assetUrl, tagline, link, strips, extension }) => {
         asset = assetUrl ? (name) => assetUrl.replace('{name}', name) : asset;
+        $('bars').innerHTML = PANELS.map((p) => `<div>${chromeFrame.bars({ tabs: strips[p.name], extension })}</div>`).join('');
+        bars = [...$('bars').children];
+        $('panel-head').innerHTML = chromeFrame.panelHead({ extension });
+        $('panel-head').style.width = `${SIDEBAR.width}px`;
         PANELS.forEach((p, i) => (layers[i].src = asset(p.name)));
         paletteFrames.forEach((image, i) => (image.src = asset(`palette-${i}`)));
         settingsImage.src = asset('settings');
@@ -467,24 +545,30 @@
         $('link').style.transform = `translateY(${mix(18, 0, link)}px)`;
       }
 
+      const WORD_HIDDEN = 150; // % of a word's height that takes it clear of its mask, padding included
       function captions(t) {
         for (const c of CAPTIONS) {
-          const el = $(`cap-${c.id}`);
+          const { el, index, rule, name, words, body } = c.parts;
           const enter = t - c.from;
-          const exit = span(t, c.to - 0.35, c.to, inOut);
+          const leave = t - (c.to - 0.5);
           el.style.visibility = t >= c.from - 0.05 && t <= c.to + 0.05 ? 'visible' : 'hidden';
-          el.style.opacity = 1 - exit;
-          el.style.transform = `translateY(${mix(0, -24, exit)}px)`;
-          const label = span(enter, 0, 0.45, out);
-          el.querySelector('.label').style.opacity = label;
-          el.querySelector('.label').style.transform = `translateX(${mix(-18, 0, label)}px)`;
-          // Each line rises out of its own mask.
-          el.querySelectorAll('.line span').forEach((line, i) => {
-            line.style.transform = `translateY(${mix(112, 0, span(enter, 0.12 + i * 0.11, 0.82 + i * 0.11, outQuint))}%)`;
+          const gone = span(leave, 0, 0.3);
+          // Label: the number rolls up, the rule draws, the name closes up its tracking.
+          index.style.transform = `translateY(${mix(110, 0, span(enter, 0, 0.5, outQuint)) - 110 * span(leave, 0, 0.3, into)}%)`;
+          rule.style.transform = `scaleX(${span(enter, 0.08, 0.62, outQuint)})`;
+          rule.style.opacity = 0.5 * (1 - gone);
+          name.style.opacity = span(enter, 0.18, 0.6, out) * (1 - gone);
+          name.style.letterSpacing = `${mix(0.36, 0.14, span(enter, 0.18, 0.95, outQuint))}em`;
+          // Headline: word by word out of the masks, tipping level as they land;
+          // they leave upwards in the same order.
+          words.forEach((word, i) => {
+            const k = span(enter, 0.16 + i * 0.075, 0.9 + i * 0.075, outQuint);
+            const away = span(leave, i * 0.035, 0.32 + i * 0.035, into);
+            word.style.transform = `translateY(${mix(WORD_HIDDEN, 0, k) - WORD_HIDDEN * away}%) rotate(${mix(7, 0, k)}deg)`;
           });
-          const body = span(enter, 0.55, 1.1, out);
-          el.querySelector('.body').style.opacity = body;
-          el.querySelector('.body').style.transform = `translateY(${mix(16, 0, body)}px)`;
+          const shown = span(enter, 0.6, 1.15, out);
+          body.style.opacity = shown * (1 - gone);
+          body.style.transform = `translateY(${mix(16, 0, shown)}px)`;
         }
       }
 
@@ -503,6 +587,11 @@
       }
 
       function panels(t) {
+        // Chrome's bars follow the window: the selected tab changes with the sidebar.
+        const current = Math.max(0, PANELS.findLastIndex((p) => t >= p.at));
+        bars.forEach((layer, i) => (layer.style.visibility = i === current ? 'visible' : 'hidden'));
+        const shut = span(t, SIDEBAR_SHUT.from, SIDEBAR_SHUT.from + SIDEBAR_SHUT.dur, inOut) - span(t, SIDEBAR_SHUT.to - SIDEBAR_SHUT.dur, SIDEBAR_SHUT.to, inOut);
+        $('side').style.width = `${SIDEBAR.width * (1 - shut)}px`;
         PANELS.forEach((p, i) => {
           const image = layers[i];
           const k = clamp((t - p.at) / p.dur);
@@ -528,10 +617,9 @@
         const zoomIn = span(t, T.live + 0.3, T.live + 1.3, inOut);
         const zoomOut = span(t, T.command - 0.55, T.command + 0.35, inOut);
         const k = zoomIn - zoomOut;
-        const scale = mix(1, 1.42, k);
-        const focus = { x: 1132, y: 640 }; // a point in the sidebar that keeps the opened folder in frame
-        const x = mix(0, 1260 - focus.x * scale, k);
-        const y = mix(0, 560 - focus.y * scale, k);
+        const scale = mix(1, CAMERA.scale, k);
+        const x = mix(0, CAMERA.lands.x - CAMERA.focus.x * scale, k);
+        const y = mix(0, CAMERA.lands.y - CAMERA.focus.y * scale, k);
         $('camera').style.transform = `translate(${x}px, ${y}px) scale(${scale})`;
       }
 
@@ -577,7 +665,7 @@
           if (t < at - 0.1 || t > at + 0.85) return;
           alpha = span(t, at - 0.1, at + 0.1) * (1 - span(t, at + 0.6, at + 0.85));
           const dir = n === SWIPES.length - 1 ? 1 : -1;
-          fingers.style.transform = `translate(${1132 + dir * mix(-90, 90, k2)}px, ${820 - Math.sin(k2 * Math.PI) * 10}px)`;
+          fingers.style.transform = `translate(${SWIPE_AT.x + dir * mix(-90, 90, k2)}px, ${SWIPE_AT.y - Math.sin(k2 * Math.PI) * 10}px)`;
         });
         fingers.style.opacity = alpha;
       }
