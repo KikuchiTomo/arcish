@@ -3,6 +3,9 @@
 
     python3 scripts/gen_icons.py
 
+Writes icons/icon<size>.png for the extension and store/icon-128.png for the
+Chrome Web Store listing.
+
 The mark is the product itself: a sidebar next to a page, on a flat tile.
 Shapes are described in unit coordinates and supersampled, so every size is
 drawn from the same geometry.
@@ -13,7 +16,14 @@ from pathlib import Path
 
 SIZES = (16, 32, 48, 128)
 SAMPLES = 6  # supersampling factor per axis
-OUT = Path(__file__).resolve().parent.parent / "icons"
+ROOT = Path(__file__).resolve().parent.parent
+OUT = ROOT / "icons"
+
+# The Chrome Web Store listing takes its own 128px icon: the artwork fills
+# 96px and the remaining 16px on every side stay transparent.
+STORE_ICON = ROOT / "store" / "icon-128.png"
+STORE_SIZE = 128
+STORE_ARTWORK = 96
 
 # Background: a superellipse tile in one flat colour (the icon is black and white).
 TILE_EXPONENT = 5.0
@@ -55,12 +65,15 @@ def sample(x, y):
     return color
 
 
-def pixel(px, py, size):
+def pixel(px, py, size, scale):
+    """One output pixel; `scale` shrinks the artwork around the centre."""
     total = [0.0, 0.0, 0.0]
     hits = 0
     for sy in range(SAMPLES):
         for sx in range(SAMPLES):
-            color = sample((px + (sx + 0.5) / SAMPLES) / size, (py + (sy + 0.5) / SAMPLES) / size)
+            x = ((px + (sx + 0.5) / SAMPLES) / size - 0.5) / scale + 0.5
+            y = ((py + (sy + 0.5) / SAMPLES) / size - 0.5) / scale + 0.5
+            color = sample(x, y)
             if color is None:
                 continue
             hits += 1
@@ -76,8 +89,8 @@ def chunk(kind, data):
     return struct.pack(">I", len(data)) + body + struct.pack(">I", zlib.crc32(body) & 0xFFFFFFFF)
 
 
-def png(size):
-    rows = b"".join(b"\x00" + bytes(c for x in range(size) for c in pixel(x, y, size)) for y in range(size))
+def png(size, scale=1.0):
+    rows = b"".join(b"\x00" + bytes(c for x in range(size) for c in pixel(x, y, size, scale)) for y in range(size))
     header = struct.pack(">IIBBBBB", size, size, 8, 6, 0, 0, 0)
     return b"\x89PNG\r\n\x1a\n" + chunk(b"IHDR", header) + chunk(b"IDAT", zlib.compress(rows, 9)) + chunk(b"IEND", b"")
 
@@ -87,3 +100,6 @@ if __name__ == "__main__":
     for size in SIZES:
         (OUT / f"icon{size}.png").write_bytes(png(size))
         print(f"icons/icon{size}.png")
+    STORE_ICON.parent.mkdir(exist_ok=True)
+    STORE_ICON.write_bytes(png(STORE_SIZE, STORE_ARTWORK / STORE_SIZE))
+    print(STORE_ICON.relative_to(ROOT))
