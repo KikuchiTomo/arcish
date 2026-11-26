@@ -1273,8 +1273,8 @@ body::before {
 .folder-ic svg.mark:not(.solid) {
   fill: none;
 }
-.folder-ic svg.mark {
-  transition: x 0.2s cubic-bezier(0.2, 0.8, 0.2, 1), y 0.2s cubic-bezier(0.2, 0.8, 0.2, 1); /* follows the front face */
+.folder-ic .mark-face {
+  transition: transform 0.2s cubic-bezier(0.2, 0.8, 0.2, 1); /* leans over with the front face */
 }
 .row .glyph:has(.folder-ic) {
   width: 22px;

@@ -88,19 +88,28 @@ const FOLDER_BACK = 'M2.5 7A2.5 2.5 0 0 1 5 4.5h3.4a2 2 0 0 1 1.6.8l.7.9a2 2 0 0
 const FOLDER_FRONT_CLOSED = 'M5 7h14a2.5 2.5 0 0 1 2.5 2.5l0 8A2.5 2.5 0 0 1 19 20H5a2.5 2.5 0 0 1-2.5-2.5L2.5 9.5A2.5 2.5 0 0 1 5 7Z';
 // Open: the front leans over to the right, like a folder standing open.
 const FOLDER_FRONT_OPEN = 'M7 11h14.4a1.2 1.2 0 0 1 1.15 1.54l-1.75 5.9A2.2 2.2 0 0 1 18.7 20H4.1a1.6 1.6 0 0 1-1.53-2.06L4.4 12.86A2.7 2.7 0 0 1 7 11Z';
-// Where the mark sits on the front face in each state.
+// The mark is drawn on the closed front face. When the folder opens, the face
+// leans to the right and gets shorter, and the mark is moved, slanted and
+// squashed with it so it stays printed on the face.
 const MARK_SIZE = 7.4;
 const MARK_TEXT_SIZE = 7.2;
-const MARK_AT = { closed: { cx: 12, cy: 13.6 }, open: { cx: 12.6, cy: 15.4 } };
+const MARK_CENTER = { x: 12, y: 13.6 };
+const MARK_CLOSED = { dx: 0, dy: 0, skew: 0, squash: 1 };
+const MARK_OPEN = { dx: 0.7, dy: 1.9, skew: -20, squash: 0.8 };
 
 export function folderIcon({ open = false, mark = '', size = 22 } = {}) {
-  const { cx, cy } = open ? MARK_AT.open : MARK_AT.closed;
+  const { x: cx, y: cy } = MARK_CENTER;
   let face = '';
   if (mark && hasIcon(mark)) {
     const { viewBox, body, solid } = shape(mark);
     face = `<svg class="mark ${solid ? 'solid' : ''}" x="${cx - MARK_SIZE / 2}" y="${cy - MARK_SIZE / 2}" width="${MARK_SIZE}" height="${MARK_SIZE}" viewBox="${viewBox}" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">${body}</svg>`;
   } else if (mark) {
     face = `<text class="mark" x="${cx}" y="${cy + MARK_TEXT_SIZE * 0.36}" text-anchor="middle" font-size="${MARK_TEXT_SIZE}">${escapeHtml(mark)}</text>`;
+  }
+  if (face) {
+    // Both states list the same transform functions, so the change animates part by part.
+    const { dx, dy, skew, squash } = open ? MARK_OPEN : MARK_CLOSED;
+    face = `<g class="mark-face" style="transform-origin:${cx}px ${cy}px;transform:translate(${dx}px,${dy}px) skewX(${skew}deg) scaleY(${squash})">${face}</g>`;
   }
   return `<svg class="ic folder-ic" width="${size}" height="${size}" viewBox="0 0 24 24" aria-hidden="true"><path class="back" d="${FOLDER_BACK}"/><path class="front" d="${open ? FOLDER_FRONT_OPEN : FOLDER_FRONT_CLOSED}"/>${face}</svg>`;
 }
