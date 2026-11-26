@@ -9,6 +9,7 @@ const url = await import('../src/shared/url.js');
 const text = await import('../src/shared/text.js');
 const tree = await import('../src/shared/tree.js');
 const { KeyedMutex } = await import('../src/background/core/mutex.js');
+const { folderIcon } = await import('../src/shared/icons.js');
 
 test('parseFeed reads RSS 2.0 with CDATA and entities', () => {
   const feed = parseFeed(`<rss><channel><title>Blog &amp; Co</title>
@@ -120,4 +121,17 @@ test('GitHub source: GraphQL with a token (with CI status), REST without', async
   } finally {
     globalThis.fetch = realFetch;
   }
+});
+
+test('folder icon: the mark leans with the front face when the folder is open', () => {
+  const transform = (svg) => svg.match(/class="mark-face" style="[^"]*transform:([^"]+)"/)?.[1];
+  for (const mark of ['github', 'AB']) {
+    const closed = transform(folderIcon({ mark }));
+    const open = transform(folderIcon({ mark, open: true }));
+    assert.match(closed, /skewX\(0deg\) scaleY\(1\)/, 'upright while closed');
+    assert.match(open, /skewX\(-\d+deg\) scaleY\(0\.\d+\)/, 'slanted and squashed while open');
+    // Same list of functions in both states, so the browser animates between them.
+    assert.deepEqual(closed.match(/[a-zA-Z]+(?=\()/g), open.match(/[a-zA-Z]+(?=\()/g));
+  }
+  assert.equal(transform(folderIcon({ open: true })), undefined, 'no mark, nothing to lean');
 });
